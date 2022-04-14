@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 // import './App.css';
-
+import Home from './Pages/Home/Home';
 // function App() {
 //   return (
 //     <div className="App">
@@ -22,7 +22,12 @@
 //   );
 // }
 
-// export default App;
-const App = (props) => props.children;
-
+function App() {
+    return (
+        <Home />
+    );
+ }
 export default App;
+// const App = (props) => props.children;
+
+// export default App;
