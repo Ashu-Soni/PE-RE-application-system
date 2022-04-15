@@ -2,20 +2,30 @@ package com.example.spe_majorproject.bean;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Elective{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eid;
     private String name;
     private String description;
-    private String vacancy;
+    private int vacancy;
     private String faculty;
     private String email;
     private String type;
+
+    public Elective() {
+        name="none";
+        description="none";
+        vacancy=0;
+        faculty="none";
+        email="none";
+        type="none";
+    }
 
     public int getEid() {
         return eid;
@@ -41,11 +51,11 @@ public class Elective{
         this.description = description;
     }
 
-    public String getVacancy() {
+    public int getVacancy() {
         return vacancy;
     }
 
-    public void setVacancy(String vacancy) {
+    public void setVacancy(int vacancy) {
         this.vacancy = vacancy;
     }
 
