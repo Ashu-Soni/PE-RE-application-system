@@ -4,6 +4,10 @@ import com.example.spe_majorproject.repository.UserCredentialsRepository;
 //import com.example.spe_majorproject.services.LoginService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.spe_majorproject.bean.*;
@@ -19,18 +23,18 @@ public class MainController {
 	private UserCredentialsRepository usercredrepo;
 
 	@PostMapping("/login")
-	public Boolean validateUser(@RequestBody UserCredentials cred)
+	public ResponseEntity validateUser(@RequestBody UserCredentials cred)
 	{
 
 		if(!cred.getEmail().isEmpty()) {
-			System.out.println("In Service : "+cred.getEmail());
+			System.out.println("In Service : " + cred.getEmail());
 			UserCredentials usr = usercredrepo.findById(cred.getEmail()).orElse(new UserCredentials());
-			System.out.println("Here:"+usr);
-			if(usr.getPassword()!=null && usr.getPassword().equals(cred.getPassword())) {
-				return true;
+			System.out.println("Here:" + usr);
+			if (usr.getPassword() != null && usr.getPassword().equals(cred.getPassword())) {
+				return ResponseEntity.ok(HttpStatus.OK);
 			}
 		}
-		return false;
+		return ResponseEntity.badRequest();
 	}
 	@PostMapping("/register")
 	public Boolean registerUser(@RequestBody UserCredentials newUser)
