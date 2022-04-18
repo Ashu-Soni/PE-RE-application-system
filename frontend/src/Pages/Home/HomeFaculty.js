@@ -26,6 +26,7 @@ export default class Home extends Component {
     };
 
     logout = () => {
+        sessionStorage.setItem("logged_in", false);
         window.location.replace("/login")
     };
 

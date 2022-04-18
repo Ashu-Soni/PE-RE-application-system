@@ -1,5 +1,5 @@
 import React, { Component } from 'react'   
-import { Form, Input, Button, Cascader, Divider, Row, Typography, Layout } from 'antd';
+import { Form, Input, Button, Cascader, Divider, Row, Typography, Layout, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './Login.css';
@@ -19,12 +19,47 @@ const designation = [
   ];
 
 export default class Login extends Component {
-    login = () => {
-        window.location.replace("/home")
-    }
-
-    login_faculty = () => {
-        window.location.replace("/home_faculty")
+    login = (r, e) => {
+        console.log(r)
+        let body = {
+            "userType": r.designation[0],
+            "email": r.email,
+            "password": r.password
+        }
+        console.log(JSON.stringify(body))
+        let url = "http://localhost:9090/home/login";
+        fetch(url, {
+            mode: 'no-cors',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" },
+            body: JSON.stringify(body)
+        }).then(res => res.json())
+            .then(response => {
+                console.log(response);
+                // if (response.status) {
+                //     sessionStorage.setItem("email", r.email);
+                //     sessionStorage.setItem("designation", (r.designation)[0])
+                //     sessionStorage.setItem("logged_in", true)
+                // }
+                // else {
+                //     sessionStorage.setItem("logged_in", false)
+                //     message.error("Invalid Email or Password", 5);
+                // }
+                // if (sessionStorage.getItem('logged_in') === true) {
+                //     if (sessionStorage.getItem('designation') !== "professor") {
+                //         window.location.replace("/home")
+                //     }
+                //     else {
+                //         window.location.replace("/home_faculty")
+                //     }
+                // }
+            }).catch(err => console.log(err))
+        // if ((r.designation)[0] === 'professor') {
+        //     window.location.replace("/home_faculty")
+        // }
+        // else {
+        //     window.location.replace("/home")
+        // }
     }
 
     register = () => {
@@ -47,7 +82,7 @@ export default class Login extends Component {
                                 name="normal_login"
                                 className="login-form"
                                 initialValues={{ remember: true }}
-                                // onFinish={onFinish}
+                                onFinish={this.login}
                             >
                                 <Title className="center_title" level={3}>PE/RE Application System</Title>
                                 <Divider plain>Login form</Divider>    
@@ -79,16 +114,16 @@ export default class Login extends Component {
                                 </Form.Item>
 
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.login} >
+                                    <Button type="primary" htmlType="submit" className="login-form-button">
                                     Log in
                                     </Button>
                                 </Form.Item>
 
-                                <Form.Item>
-                                    <Button htmlType="submit" className="login-form-button" onClick={this.login_faculty} >
-                                    Faculty Log in
-                                    </Button>
-                                </Form.Item>
+                                {/*<Form.Item>*/}
+                                {/*    <Button htmlType="submit" className="login-form-button">*/}
+                                {/*    Faculty Log in*/}
+                                {/*    </Button>*/}
+                                {/*</Form.Item>*/}
 
                                 <Form.Item>
                                     <Button className="login-form-button" onClick={this.register} >

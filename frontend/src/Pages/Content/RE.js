@@ -5,28 +5,6 @@ import React, { Component, useState } from 'react';
 import ApplyForm from './ApplyForm';
 
 const { Search } = Input;
-let cols = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-      title: 'Professor',
-      dataIndex: 'professor',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-  },
-  {
-      title: 'Slots Available',
-      dataIndex: 'slots',
-  },
-  {
-    title: 'Apply',
-    dataIndex: 'apply',
-  },
-];
 
 let projs = [
   {
@@ -61,7 +39,24 @@ export default class RE extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({projects: projs, columns: cols, filtered: projs})
+    // let url = `http://localhost:9090/re`;
+    // fetch(url, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((response) => {
+    //     if (response.status) {
+    //       this.setState({projects: response.projs, filtered: response.projs})
+    //     } else {
+    //       message.error(response.message, 5);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+    this.setState({projects: projs, filtered: projs})
   }
 
   onSearch = (value) => {
@@ -109,9 +104,7 @@ export default class RE extends Component {
 
 
   render(){   
-    const {columns, projects, filtered } = this.state;
-    console.log(projects)
-    console.log(filtered)
+    const {filtered } = this.state;
 
     return(
       <Layout>

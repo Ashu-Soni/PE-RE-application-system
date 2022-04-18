@@ -1,61 +1,39 @@
-import { Col, Row, Table, Button, Input, Form, Typography } from 'antd';
-import Layout, { Content, Header } from 'antd/lib/layout/layout';
-import Modal from 'antd/lib/modal/Modal';
-import Column from 'antd/lib/table/Column';
-import React, { Component, useState } from 'react';
-import ApplyForm from './ApplyForm';
+import { Col, Row, Table, Button, Input, Form, Typography } from "antd";
+import Layout, { Content, Header } from "antd/lib/layout/layout";
+import Modal from "antd/lib/modal/Modal";
+import Column from "antd/lib/table/Column";
+import React, { Component, useState } from "react";
+import ApplyForm from "./ApplyForm";
 
 const { Search } = Input;
-let cols = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-      title: 'Professor',
-      dataIndex: 'professor',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-  },
-  {
-      title: 'Slots Available',
-      dataIndex: 'slots',
-  },
-  {
-    title: 'Apply',
-    dataIndex: 'apply',
-  },
-];
 
 let projs = [
   {
-    key: '1',
-    name: 'PE/RE Application System',
+    key: "1",
+    name: "PE/RE Application System",
     professor: "ABC",
     description: "Hello world",
     slots: 10,
   },
   {
-      key: '2',
-      name: 'PE/RE Application System',
-      professor: "ABC",
-      description: "Hello world",
-      slots: 5,
+    key: "2",
+    name: "PE/RE Application System",
+    professor: "ABC",
+    description: "Hello world",
+    slots: 5,
   },
   {
-      key: '3',
-      name: 'Health care management',
-      professor: "sdfsdf",
-      description: "Hello world",
-      slots: 4,
+    key: "3",
+    name: "Health care management",
+    professor: "sdfsdf",
+    description: "Hello world",
+    slots: 4,
   },
 ];
 
 export default class PE extends Component {
   editFormRef = React.createRef();
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       columns: [],
@@ -63,31 +41,48 @@ export default class PE extends Component {
       filtered: [],
       applyProject: {},
       applyModal: false,
-    }
-    this.editModalForm = this.editModalForm.bind(this)
-    this.onCancelApply = this.onCancelApply.bind(this)
+    };
+    this.editModalForm = this.editModalForm.bind(this);
+    this.onCancelApply = this.onCancelApply.bind(this);
   }
 
   componentDidMount = () => {
-    this.setState({projects: projs, columns: cols, filtered: projs})
-  }
+    // let url = `http://localhost:9090/pe`;
+    // fetch(url, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((response) => {
+    //     if (response.status) {
+    //       this.setState({projects: response.projs, filtered: response.projs})
+    //     } else {
+    //       message.error(response.message, 5);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+    this.setState({ projects: projs, filtered: projs });
+  };
 
   onSearch = (value) => {
     let data = this.state.projects;
-    
+
     if (value.length === 0) {
-      this.setState({filtered: data})
+      this.setState({ filtered: data });
       return;
     }
     let searchLower = value.toLowerCase();
     let filtered_projects = data.filter((item) => {
-      console.log(item.professor)
+      console.log(item.professor);
       if (item.professor.toLowerCase().includes(searchLower)) {
         return true;
       }
       return false;
     });
-    this.setState({filtered: filtered_projects})
+    this.setState({ filtered: filtered_projects });
   };
 
   onSearchChange = (e) => {
@@ -98,29 +93,29 @@ export default class PE extends Component {
 
   editModalForm = () => {
     let record = this.state.applyProject;
-    console.log(record)
+    console.log(record);
     this.editFormRef.current.setFieldsValue({
       name: record.name,
       professor: record.professor,
       description: record.description,
     });
-  }
+  };
 
   onApply = (record) => {
     console.log(record);
-    this.setState({applyProject: record, applyModal: true})
-  }
+    this.setState({ applyProject: record, applyModal: true });
+  };
 
   onCancelApply = () => {
-    this.setState({applyModal: false})
-  }
+    this.setState({ applyModal: false });
+  };
 
-  render(){   
-    const { columns, projects, filtered } = this.state;
+  render() {
+    const { filtered } = this.state;
 
-    return(
+    return (
       <Layout>
-        <Header style={{backgroundColor: 'whitesmoke'}}>
+        <Header style={{ backgroundColor: "whitesmoke" }}>
           <Search
             placeholder="Search by Professor Name"
             allowClear
@@ -131,26 +126,35 @@ export default class PE extends Component {
           />
         </Header>
         <Content>
-          <Table  dataSource={filtered} >
-            <Column key="name" dataIndex={"name"} title="Name"/>
-            <Column key ="description" dataIndex={"description"} title="Description"/>
-            <Column dataIndex="slots" title="Slot"/>
-            <Column dataIndex="professor" title="Professor"/>
-            <Column key="action" render={(r) => {
-              return(
-                <Button type='primary' onClick={() => this.onApply(r)}>Apply</Button>
-              )
-            }}></Column>
+          <Table dataSource={filtered}>
+            <Column key="name" dataIndex={"name"} title="Name" />
+            <Column
+              key="description"
+              dataIndex={"description"}
+              title="Description"
+            />
+            <Column dataIndex="slots" title="Slot" />
+            <Column dataIndex="professor" title="Professor" />
+            <Column
+              key="action"
+              render={(r) => {
+                return (
+                  <Button type="primary" onClick={() => this.onApply(r)}>
+                    Apply
+                  </Button>
+                );
+              }}
+            ></Column>
           </Table>
           <Modal
             visible={this.state.applyModal}
             title="Application Form"
             footer={null}
           >
-            <ApplyForm {...this}{...this.state}></ApplyForm>
+            <ApplyForm {...this} {...this.state}></ApplyForm>
           </Modal>
         </Content>
       </Layout>
-    )
+    );
   }
 }
