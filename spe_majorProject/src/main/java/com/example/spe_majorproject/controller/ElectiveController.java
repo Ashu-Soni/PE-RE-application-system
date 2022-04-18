@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -80,5 +81,79 @@ public class ElectiveController {
     }
     return false;
   }
+  @GetMapping("/MyElectives")
+  public List<Elective> getElectives(@RequestBody Map<String,String> factEmail)
+  {
+    //System.out.println(factEmail);
+    return electiverepo.findByEmail(factEmail.get("email"));
+  }
+  @PostMapping("/MyElectives/Add")
+  public Boolean addElective(@RequestBody Elective elective)
+  {
+    Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
+    if(!factname.equals("none"))
+    {
+      elective.setFaculty(factname.getName());
+      electiverepo.save(elective);
+      return true;
+    }
+    return false;
+  }
+  @PostMapping("/MyElectives/Update")
+  public Boolean updateElective(@RequestBody Elective elective)
+  {
+    Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
+    if(!factname.equals("none"))
+    {
+      elective.setFaculty(factname.getName());
+      electiverepo.save(elective);
+      return true;
+    }
+    return false;
+  }
 
+  @GetMapping("/Applications")
+  public List<Application> getApplications(@RequestBody Map<String,String> factEmail)
+  {
+    return apprepo.findByFacultyemail(factEmail.get("facultyemail"));
+  }
+  @PostMapping("/Applications/Accept")
+  public Boolean acceptApplication(@RequestBody Map<String,Integer> application)
+  {
+    int aid=application.get("aid");
+    int eid=application.get("eid");
+    Application appl=apprepo.findById(aid).orElse(new Application());
+    Elective elec=electiverepo.findById(eid).orElse(new Elective());
+    if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
+    {
+      return false;
+    }
+    if(elec.getEmail().equals("none"))
+    {
+      return false;
+    }
+    if(elec.getVacancy()<=0)
+    {
+      return false;
+    }
+    appl.setStatus("Accepted");
+    apprepo.save(appl);
+    elec.setVacancy(elec.getVacancy()-1);
+    electiverepo.save(elec);
+    return true;
+  }
+  @PostMapping("/Applications/Reject")
+  public Boolean rejectApplication(@RequestBody Map<String,Integer> application)
+  {
+    int aid=application.get("aid");
+    Application appl=apprepo.findById(aid).orElse(new Application());
+    if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
+    {
+      return false;
+    }
+
+    appl.setStatus("Rejected");
+    apprepo.save(appl);
+    return true;
+  }
 }

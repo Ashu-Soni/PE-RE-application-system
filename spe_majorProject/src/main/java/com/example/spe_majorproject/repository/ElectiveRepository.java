@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ElectiveRepository extends JpaRepository<Elective,Integer> {
     List<Elective> findByType(String Type);
+    List<Elective> findByEmail(String Email);
 }
