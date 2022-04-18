@@ -54,12 +54,12 @@ export default class Login extends Component {
                 //     }
                 // }
             }).catch(err => console.log(err))
-        // if ((r.designation)[0] === 'professor') {
-        //     window.location.replace("/home_faculty")
-        // }
-        // else {
-        //     window.location.replace("/home")
-        // }
+        if ((r.designation)[0] === 'professor') {
+            window.location.replace("/home_faculty")
+        }
+        else {
+            window.location.replace("/home")
+        }
     }
 
     register = () => {

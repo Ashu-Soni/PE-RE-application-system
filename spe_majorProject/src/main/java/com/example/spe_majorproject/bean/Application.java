@@ -11,9 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class Application {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="seq")
-    @GenericGenerator(name = "seq", strategy="increment")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int aid;
     private int eid;
     private String studemail;
