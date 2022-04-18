@@ -19,7 +19,7 @@ public class Application {
     private String type;
     private String skills;
     private String experience;
-    private String facultyname;
+    private String facultyname; // change this name to "faculty"
     private String studname;
     private String status;
 

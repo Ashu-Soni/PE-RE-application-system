@@ -13,6 +13,15 @@ public class Student {
     private String mobile;
     private String branch;
 
+    public Student() {
+        email="none";
+        name="none";
+        rollno="none";
+        degree="none";
+        mobile="none";
+        branch="none";
+    }
+
     public String getEmail() {
         return email;
     }
