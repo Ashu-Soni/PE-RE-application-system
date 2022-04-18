@@ -1,5 +1,7 @@
 package com.example.spe_majorproject.controller;
 
+import com.example.spe_majorproject.repository.FacultyRepository;
+import com.example.spe_majorproject.repository.StudentRepository;
 import com.example.spe_majorproject.repository.UserCredentialsRepository;
 //import com.example.spe_majorproject.services.LoginService;
 
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.spe_majorproject.bean.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import java.util.List;
 
@@ -22,29 +25,63 @@ public class MainController {
 	@Autowired
 	private UserCredentialsRepository usercredrepo;
 
+	@Autowired
+	private FacultyRepository facultyRepository;
+
+	@Autowired
+	private StudentRepository studentRepository;
+
 	@PostMapping("/login")
-	public ResponseEntity validateUser(@RequestBody UserCredentials cred)
+	public ResponseEntity<Response> validateUser(@RequestBody UserCredentials cred)
 	{
+		Response response=new Response();
 
 		if(!cred.getEmail().isEmpty()) {
-			System.out.println("In Service : " + cred.getEmail());
 			UserCredentials usr = usercredrepo.findById(cred.getEmail()).orElse(new UserCredentials());
-			System.out.println("Here:" + usr);
+
 			if (usr.getPassword() != null && usr.getPassword().equals(cred.getPassword())) {
-				return ResponseEntity.ok(HttpStatus.OK);
+				response.setStatus("Success");
+				response.setMessage("User Credentials Verified");
+
+				return ResponseEntity.ok().header("Content-Type", "application/json")
+						.body(response);
 			}
 		}
-		return ResponseEntity.badRequest();
+		response.setStatus("Failed");
+		response.setMessage("Invalid User Credentials");
+		return ResponseEntity.badRequest().header("Content-Type", "application/json")
+				.body(response);
 	}
 	@PostMapping("/register")
-	public Boolean registerUser(@RequestBody UserCredentials newUser)
+	public ResponseEntity<Response> registerUser(@RequestBody UserCredentials newUser)
 	{
+		Response response=new Response();
 		if(usercredrepo.existsById(newUser.getEmail()))
 		{
-			return false;
+			response.setStatus("Failed");
+			response.setMessage("User already exists");
+			return ResponseEntity.badRequest().header("Content-Type", "application/json")
+					.body(response);
 		}
 		usercredrepo.save(newUser);
-		return true;
+		if(newUser.getUserType().equalsIgnoreCase("Student"))
+		{
+			Student student=new Student();
+			student.setName(newUser.getName());
+			student.setEmail(newUser.getEmail());
+			studentRepository.save(student);
+		}
+		if(newUser.getUserType().equalsIgnoreCase("Faculty"))
+		{
+			Faculty faculty=new Faculty();
+			faculty.setEmail(newUser.getEmail());
+			faculty.setName(newUser.getName());
+			facultyRepository.save(faculty);
+		}
+		response.setStatus("Success");
+		response.setMessage("User registered successfully");
+		return ResponseEntity.ok().header("Content-Type", "application/json")
+				.body(response);
 	}
 
 
