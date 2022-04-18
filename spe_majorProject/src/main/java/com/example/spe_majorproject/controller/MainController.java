@@ -15,16 +15,12 @@ import java.util.List;
 @RequestMapping("/home")
 public class MainController {
 
-//	private LoginService login=new LoginService();
-
 	@Autowired
 	private UserCredentialsRepository usercredrepo;
 
 	@PostMapping("/login")
 	public Boolean validateUser(@RequestBody UserCredentials cred)
 	{
-//		System.out.println(cred);
-//		return login.validateUser(cred);
 
 		if(!cred.getEmail().isEmpty()) {
 			System.out.println("In Service : "+cred.getEmail());
@@ -36,11 +32,16 @@ public class MainController {
 		}
 		return false;
 	}
+	@PostMapping("/register")
+	public Boolean registerUser(@RequestBody UserCredentials newUser)
+	{
+		if(usercredrepo.existsById(newUser.getEmail()))
+		{
+			return false;
+		}
+		usercredrepo.save(newUser);
+		return true;
+	}
 
-//	@GetMapping("/getAllCred")
-//	public List<UserCredentials> getAllCredentials()
-//	{
-//		return login.getAllUserCredentials();
-//	}
 
 }

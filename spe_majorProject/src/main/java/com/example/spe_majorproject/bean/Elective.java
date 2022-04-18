@@ -8,8 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Elective{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eid;
     private String name;
     private String description;
