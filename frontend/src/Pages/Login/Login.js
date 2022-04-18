@@ -36,28 +36,30 @@ export default class Login extends Component {
         }).then(res => res.json())
             .then(response => {
                 console.log(response);
-                // if (response.status) {
-                //     sessionStorage.setItem("email", r.email);
-                //     sessionStorage.setItem("designation", (r.designation)[0])
-                //     sessionStorage.setItem("logged_in", true)
-                // }
-                // else {
-                //     sessionStorage.setItem("logged_in", false)
-                //     message.error("Invalid Email or Password", 5);
-                // }
-                // if (sessionStorage.getItem('logged_in') === true) {
-                //     if (sessionStorage.getItem('designation') !== "professor") {
-                //         window.location.replace("/home")
-                //     }
-                //     else {
-                //         window.location.replace("/home_faculty")
-                //     }
-                // }
+                if (response.status) {
+                    sessionStorage.setItem("email", r.email);
+                    sessionStorage.setItem("designation", (r.designation)[0])
+                    sessionStorage.setItem("logged_in", true)
+                }
+                else {
+                    sessionStorage.setItem("logged_in", false)
+                    message.error("Invalid Email or Password", 5);
+                }
+                if (sessionStorage.getItem('logged_in') === true) {
+                    if (sessionStorage.getItem('designation') !== "professor") {
+                        window.location.replace("/home")
+                    }
+                    else {
+                        window.location.replace("/home_faculty")
+                    }
+                }
             }).catch(err => console.log(err))
         if ((r.designation)[0] === 'professor') {
+            sessionStorage.setItem("email", r.email);
             window.location.replace("/home_faculty")
         }
         else {
+            sessionStorage.setItem("email", r.email);
             window.location.replace("/home")
         }
     }
@@ -118,12 +120,6 @@ export default class Login extends Component {
                                     Log in
                                     </Button>
                                 </Form.Item>
-
-                                {/*<Form.Item>*/}
-                                {/*    <Button htmlType="submit" className="login-form-button">*/}
-                                {/*    Faculty Log in*/}
-                                {/*    </Button>*/}
-                                {/*</Form.Item>*/}
 
                                 <Form.Item>
                                     <Button className="login-form-button" onClick={this.register} >

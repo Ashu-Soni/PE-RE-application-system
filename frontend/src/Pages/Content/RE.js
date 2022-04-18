@@ -8,18 +8,25 @@ const { Search } = Input;
 
 let projs = [
   {
-    key: '1',
-    name: 'PE/RE Application System',
-    professor: "ABC",
+    eid: "1",
+    name: "PE/RE Application System",
+    faculty: "ABC",
     description: "Hello world",
-    slots: 10,
+    vacancy: 10,
   },
   {
-      key: '2',
-      name: 'Health care management',
-      professor: "sdfsdf",
-      description: "Hello world",
-      slots: 4,
+    eid: "2",
+    name: "PE/RE Application System",
+    faculty: "ABC",
+    description: "Hello world",
+    vacancy: 5,
+  },
+  {
+    eid: "3",
+    name: "Health care management",
+    faculty: "sdfsdf",
+    description: "Hello world",
+    vacancy: 4,
   },
 ];
 
@@ -68,8 +75,8 @@ export default class RE extends Component {
     }
     let searchLower = value.toLowerCase();
     let filtered_projects = data.filter((item) => {
-      console.log(item.professor)
-      if (item.professor.toLowerCase().includes(searchLower)) {
+      console.log(item.faculty)
+      if (item.faculty.toLowerCase().includes(searchLower)) {
         return true;
       }
       return false;
@@ -87,9 +94,12 @@ export default class RE extends Component {
     let record = this.state.applyProject;
     console.log(record)
     this.editFormRef.current.setFieldsValue({
+      eid: record.eid,
+      email: sessionStorage.getItem("email"),
       name: record.name,
-      professor: record.professor,
+      faculty: record.faculty,
       description: record.description,
+      type: "RE",
     });
   }
 
@@ -122,8 +132,8 @@ export default class RE extends Component {
           <Table dataSource={filtered}>
             <Column key="name" dataIndex={"name"} title="Name"/>
             <Column key ="description" dataIndex={"description"} title="Description"/>
-            <Column dataIndex="slots" title="Slot"/>
-            <Column dataIndex="professor" title="Professor"/>
+            <Column dataIndex="vacancy" title="Slot"/>
+            <Column dataIndex="faculty" title="Professor"/>
             <Column key="action" render={(r) => {
               return(
                 <Button type='primary' onClick={() => this.onApply(r)}>Apply</Button>

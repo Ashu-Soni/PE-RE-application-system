@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Button, Input, Form } from 'antd';
+import {Button, Input, Form, Typography } from 'antd';
+import {FormLabel} from "react-bootstrap";
 
 export default class ApplyForm extends Component {
     componentDidMount = () => {
@@ -10,12 +11,35 @@ export default class ApplyForm extends Component {
       this.props.editModalForm();
     }
 
+    onApply = (r, e) =>{
+        console.log(r)
+    }
+
     render() {
         return(
             <Form 
                 layout='vertical' 
-                ref={this.props.editFormRef} 
+                ref={this.props.editFormRef}
+                onFinish={this.onApply}
             >
+                <Form.Item
+                    name='eid'
+                    label='Elective ID'
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name='email'
+                    label='Email ID'
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name='type'
+                    label='Elective Type'
+                >
+                    <Input />
+                </Form.Item>
               <Form.Item
                 name='name'
                 label='Name'
@@ -24,7 +48,7 @@ export default class ApplyForm extends Component {
               </Form.Item>
 
               <Form.Item
-                name='professor'
+                name='faculty'
                 label='Professor'
               >
                 <Input />

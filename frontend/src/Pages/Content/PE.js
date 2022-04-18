@@ -9,25 +9,25 @@ const { Search } = Input;
 
 let projs = [
   {
-    key: "1",
+    eid: "1",
     name: "PE/RE Application System",
-    professor: "ABC",
+    faculty: "ABC",
     description: "Hello world",
-    slots: 10,
+    vacancy: 10,
   },
   {
-    key: "2",
+    eid: "2",
     name: "PE/RE Application System",
-    professor: "ABC",
+    faculty: "ABC",
     description: "Hello world",
-    slots: 5,
+    vacancy: 5,
   },
   {
-    key: "3",
+    eid: "3",
     name: "Health care management",
-    professor: "sdfsdf",
+    faculty: "sdfsdf",
     description: "Hello world",
-    slots: 4,
+    vacancy: 4,
   },
 ];
 
@@ -76,8 +76,8 @@ export default class PE extends Component {
     }
     let searchLower = value.toLowerCase();
     let filtered_projects = data.filter((item) => {
-      console.log(item.professor);
-      if (item.professor.toLowerCase().includes(searchLower)) {
+      console.log(item.faculty);
+      if (item.faculty.toLowerCase().includes(searchLower)) {
         return true;
       }
       return false;
@@ -95,9 +95,12 @@ export default class PE extends Component {
     let record = this.state.applyProject;
     console.log(record);
     this.editFormRef.current.setFieldsValue({
+      eid: record.eid,
+      email: sessionStorage.getItem("email"),
       name: record.name,
-      professor: record.professor,
+      faculty: record.faculty,
       description: record.description,
+      type: "PE",
     });
   };
 
@@ -133,8 +136,8 @@ export default class PE extends Component {
               dataIndex={"description"}
               title="Description"
             />
-            <Column dataIndex="slots" title="Slot" />
-            <Column dataIndex="professor" title="Professor" />
+            <Column key={"vacancy"} dataIndex="vacancy" title="Slot" />
+            <Column key={"faculty"} dataIndex="faculty" title="Professor" />
             <Column
               key="action"
               render={(r) => {

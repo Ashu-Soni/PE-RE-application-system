@@ -51,31 +51,33 @@ export default class Register extends Component {
   register = (values, e) => {
     console.log(values);
 
-    // let body = {
-    //     "email": values.email,
-    //     "name": values.name,
-    //     "password": values.password,
-    // }
-    // let url = `http://localhost:9090/register`;
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    //   body: JSON.stringify(values),
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     if (response.status) {
-    //       console.log("Registration success!");
-    //       message.success("Registration success!", 1);
-    //       window.location.replace("/login");
-    //     } else {
-    //       console.log("Registration failure!");
-    //       message.success(response.message, 5);
-    //     }
-    //   });
+    let body = {
+      "email": values.email,
+      "name": values.name,
+      "password": values.password,
+      "userType": values.designation[0]
+    }
+    console.log(JSON.stringify(body))
+    let url = `http://localhost:9090/home/register`;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.status) {
+          console.log("Registration success!");
+          message.success("Registration success!", 1);
+          window.location.replace("/login");
+        } else {
+          console.log("Registration failure!");
+          message.success(response.message, 5);
+        }
+      });
   };
 
   cancel = () => {
