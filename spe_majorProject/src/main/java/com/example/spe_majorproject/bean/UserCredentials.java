@@ -15,6 +15,16 @@ public class UserCredentials {
 
 	private String userType;
 
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getUserType() {
 		return userType;
 	}
@@ -45,6 +55,7 @@ public class UserCredentials {
 				"email='" + email + '\'' +
 				", password='" + password + '\'' +
 				", userType='" + userType + '\'' +
+				", name='" + name + '\'' +
 				'}';
 	}
 }

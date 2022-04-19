@@ -8,6 +8,7 @@ import com.example.spe_majorproject.repository.ApplicationRepository;
 import com.example.spe_majorproject.repository.ElectiveRepository;
 import com.example.spe_majorproject.repository.FacultyRepository;
 import com.example.spe_majorproject.repository.StudentRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,8 +53,9 @@ public class ElectiveController {
   }
 
   @PostMapping("/ProjectElectives/apply")
-  public Boolean applyForPE(@RequestBody Application application)
+  public ResponseEntity<Response> applyForPE(@RequestBody Application application)
   {
+    Response response=new Response();
     Student student=studentRepository.findById(application.getStudemail()).orElse(new Student());
     Elective elective=electiverepo.findById(application.getEid()).orElse(new Elective());
     String studentName=student.getName();
@@ -63,53 +65,81 @@ public class ElectiveController {
       application.setStudname(studentName);
       application.setFacultyemail(factemail);
       apprepo.save(application);
-      return true;
+      response.setStatus("Success");
+      response.setMessage("Application submitted successfully");
+      return ResponseEntity.ok().header("Content-Type", "application/json")
+              .body(response);
     }
-    return false;
+    response.setStatus("Failed");
+    response.setMessage("Application submission failed");
+    return ResponseEntity.badRequest().header("Content-Type", "application/json")
+            .body(response);
   }
 
   @PostMapping("/ResearchElectives/apply")
-  public Boolean applyForRE(@RequestBody Application application)
+  public ResponseEntity<Response> applyForRE(@RequestBody Application application)
   {
+    Response response=new Response();
     Student student=studentRepository.findById(application.getStudemail()).orElse(new Student());
     String studentName=student.getName();
     if(!studentName.equals("none"))
     {
       application.setStudname(studentName);
       apprepo.save(application);
-      return true;
+      response.setStatus("Success");
+      response.setMessage("Application submitted successfully");
+      return ResponseEntity.ok().header("Content-Type", "application/json")
+              .body(response);
     }
-    return false;
+    response.setStatus("Failed");
+    response.setMessage("Application submission failed");
+    return ResponseEntity.badRequest().header("Content-Type", "application/json")
+            .body(response);
   }
   @GetMapping("/MyElectives")
   public List<Elective> getElectives(@RequestBody Map<String,String> factEmail)
   {
-    //System.out.println(factEmail);
     return electiverepo.findByEmail(factEmail.get("email"));
   }
   @PostMapping("/MyElectives/Add")
-  public Boolean addElective(@RequestBody Elective elective)
+  public ResponseEntity<Response> addElective(@RequestBody Elective elective)
   {
+    Response response=new Response();
     Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
     if(!factname.equals("none"))
     {
       elective.setFaculty(factname.getName());
       electiverepo.save(elective);
-      return true;
+      response.setStatus("Success");
+      response.setMessage("New Elective added successfully");
+      return ResponseEntity.ok().header("Content-Type", "application/json")
+              .body(response);
     }
-    return false;
+    response.setStatus("Failed");
+    response.setMessage("Failed to add new elective");
+    return ResponseEntity.badRequest().header("Content-Type", "application/json")
+            .body(response);
   }
+
+
   @PostMapping("/MyElectives/Update")
-  public Boolean updateElective(@RequestBody Elective elective)
+  public ResponseEntity<Response> updateElective(@RequestBody Elective elective)
   {
+    Response response=new Response();
     Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
     if(!factname.equals("none"))
     {
       elective.setFaculty(factname.getName());
       electiverepo.save(elective);
-      return true;
+      response.setStatus("Success");
+      response.setMessage("Elective details updated successfully");
+      return ResponseEntity.ok().header("Content-Type", "application/json")
+              .body(response);
     }
-    return false;
+    response.setStatus("Failed");
+    response.setMessage("Elective details not updated");
+    return ResponseEntity.badRequest().header("Content-Type", "application/json")
+            .body(response);
   }
 
   @GetMapping("/Applications")
@@ -117,43 +147,73 @@ public class ElectiveController {
   {
     return apprepo.findByFacultyemail(factEmail.get("facultyemail"));
   }
+
+
   @PostMapping("/Applications/Accept")
-  public Boolean acceptApplication(@RequestBody Map<String,Integer> application)
+  public ResponseEntity<Response> acceptApplication(@RequestBody Map<String,Integer> application)
   {
+    Response response=new Response();
     int aid=application.get("aid");
     int eid=application.get("eid");
     Application appl=apprepo.findById(aid).orElse(new Application());
     Elective elec=electiverepo.findById(eid).orElse(new Elective());
     if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
     {
-      return false;
+      response.setStatus("Failed");
+      response.setMessage("Invalid student id");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
+    }
+    if(!appl.getStatus().equals("Pending"))
+    {
+      response.setStatus("Failed");
+      response.setMessage("Cannot accept the application because either it is already accepted or rejected");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
     }
     if(elec.getEmail().equals("none"))
     {
-      return false;
+      response.setStatus("Failed");
+      response.setMessage("Invalid faculty id");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
     }
     if(elec.getVacancy()<=0)
     {
-      return false;
+      response.setStatus("Failed");
+      response.setMessage("No vacancy available in this elective");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
     }
     appl.setStatus("Accepted");
     apprepo.save(appl);
     elec.setVacancy(elec.getVacancy()-1);
     electiverepo.save(elec);
-    return true;
+    response.setStatus("Success");
+    response.setMessage("Application accepted successfully");
+    return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(response);
   }
+
   @PostMapping("/Applications/Reject")
-  public Boolean rejectApplication(@RequestBody Map<String,Integer> application)
+  public ResponseEntity<Response> rejectApplication(@RequestBody Map<String,Integer> application)
   {
+    Response response=new Response();
     int aid=application.get("aid");
     Application appl=apprepo.findById(aid).orElse(new Application());
     if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
     {
-      return false;
+      response.setStatus("Failed");
+      response.setMessage("Invalid student id");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
     }
 
     appl.setStatus("Rejected");
     apprepo.save(appl);
-    return true;
+    response.setStatus("Success");
+    response.setMessage("Application rejected successfully");
+    return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(response);
   }
 }
