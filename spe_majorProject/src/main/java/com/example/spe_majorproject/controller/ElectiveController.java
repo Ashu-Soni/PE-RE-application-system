@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/dashboard")
 public class ElectiveController {
@@ -96,10 +97,11 @@ public class ElectiveController {
     return ResponseEntity.badRequest().header("Content-Type", "application/json")
             .body(response);
   }
-  @GetMapping("/MyElectives")
-  public List<Elective> getElectives(@RequestBody Map<String,String> factEmail)
+  @PostMapping ("/MyElectives")
+  public ResponseEntity<List<Elective>> getElectives(@RequestBody Map<String,String> factEmail)
   {
-    return electiverepo.findByEmail(factEmail.get("email"));
+    return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(electiverepo.findByEmail(factEmail.get("email")));
   }
   @PostMapping("/MyElectives/Add")
   public ResponseEntity<Response> addElective(@RequestBody Elective elective)

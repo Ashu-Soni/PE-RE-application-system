@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/home")
 public class MainController {
@@ -71,7 +71,7 @@ public class MainController {
 			student.setEmail(newUser.getEmail());
 			studentRepository.save(student);
 		}
-		if(newUser.getUserType().equalsIgnoreCase("Faculty"))
+		if(newUser.getUserType().equalsIgnoreCase("Professor"))
 		{
 			Faculty faculty=new Faculty();
 			faculty.setEmail(newUser.getEmail());

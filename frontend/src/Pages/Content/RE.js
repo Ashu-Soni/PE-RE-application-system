@@ -1,8 +1,8 @@
-import { Col, Row, Table, Button, Input, Modal} from 'antd';
-import Column from 'antd/lib/table/Column';
-import Layout, { Content, Header } from 'antd/lib/layout/layout';
-import React, { Component, useState } from 'react';
-import ApplyForm from './ApplyForm';
+import { Col, Row, Table, Button, Input, Modal } from "antd";
+import Column from "antd/lib/table/Column";
+import Layout, { Content, Header } from "antd/lib/layout/layout";
+import React, { Component, useState } from "react";
+import ApplyForm from "./ApplyForm";
 
 const { Search } = Input;
 
@@ -32,7 +32,7 @@ let projs = [
 
 export default class RE extends Component {
   editFormRef = React.createRef();
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       columns: [],
@@ -40,9 +40,9 @@ export default class RE extends Component {
       filtered: [],
       applyProject: {},
       applyModal: false,
-    }
-    this.editModalForm = this.editModalForm.bind(this)
-    this.onCancelApply = this.onCancelApply.bind(this)
+    };
+    this.editModalForm = this.editModalForm.bind(this);
+    this.onCancelApply = this.onCancelApply.bind(this);
   }
 
   componentDidMount = () => {
@@ -63,25 +63,25 @@ export default class RE extends Component {
     //     }
     //   })
     //   .catch((err) => console.log(err));
-    this.setState({projects: projs, filtered: projs})
-  }
+    this.setState({ projects: projs, filtered: projs });
+  };
 
   onSearch = (value) => {
     let data = this.state.projects;
-    
+
     if (value.length === 0) {
-      this.setState({filtered: data})
+      this.setState({ filtered: data });
       return;
     }
     let searchLower = value.toLowerCase();
     let filtered_projects = data.filter((item) => {
-      console.log(item.faculty)
+      console.log(item.faculty);
       if (item.faculty.toLowerCase().includes(searchLower)) {
         return true;
       }
       return false;
     });
-    this.setState({filtered: filtered_projects})
+    this.setState({ filtered: filtered_projects });
   };
 
   onSearchChange = (e) => {
@@ -92,7 +92,7 @@ export default class RE extends Component {
 
   editModalForm = () => {
     let record = this.state.applyProject;
-    console.log(record)
+    console.log(record);
     this.editFormRef.current.setFieldsValue({
       eid: record.eid,
       email: sessionStorage.getItem("email"),
@@ -101,24 +101,23 @@ export default class RE extends Component {
       description: record.description,
       type: "RE",
     });
-  }
+  };
 
   onApply = (record) => {
     console.log(record);
-    this.setState({applyProject: record, applyModal: true})
-  }
+    this.setState({ applyProject: record, applyModal: true });
+  };
 
   onCancelApply = () => {
-    this.setState({applyModal: false})
-  }
+    this.setState({ applyModal: false });
+  };
 
+  render() {
+    const { filtered } = this.state;
 
-  render(){   
-    const {filtered } = this.state;
-
-    return(
+    return (
       <Layout>
-        <Header style={{backgroundColor: 'whitesmoke'}}>
+        <Header style={{ backgroundColor: "whitesmoke" }}>
           <Search
             placeholder="Search by Professor Name"
             allowClear
@@ -130,25 +129,34 @@ export default class RE extends Component {
         </Header>
         <Content>
           <Table dataSource={filtered}>
-            <Column key="name" dataIndex={"name"} title="Name"/>
-            <Column key ="description" dataIndex={"description"} title="Description"/>
-            <Column dataIndex="vacancy" title="Slot"/>
-            <Column dataIndex="faculty" title="Professor"/>
-            <Column key="action" render={(r) => {
-              return(
-                <Button type='primary' onClick={() => this.onApply(r)}>Apply</Button>
-              )
-            }} />
+            <Column key="name" dataIndex={"name"} title="Name" />
+            <Column
+              key="description"
+              dataIndex={"description"}
+              title="Description"
+            />
+            <Column dataIndex="vacancy" title="Slot" />
+            <Column dataIndex="faculty" title="Professor" />
+            <Column
+              key="action"
+              render={(r) => {
+                return (
+                  <Button type="primary" onClick={() => this.onApply(r)}>
+                    Apply
+                  </Button>
+                );
+              }}
+            />
           </Table>
           <Modal
             visible={this.state.applyModal}
             title="Application Form"
             footer={null}
           >
-            <ApplyForm {...this}{...this.state}></ApplyForm>
+            <ApplyForm {...this} {...this.state}></ApplyForm>
           </Modal>
         </Content>
       </Layout>
-    )
+    );
   }
 }

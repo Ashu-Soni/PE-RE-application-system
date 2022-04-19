@@ -52,12 +52,12 @@ export default class Register extends Component {
     console.log(values);
 
     let body = {
-      "email": values.email,
-      "name": values.name,
-      "password": values.password,
-      "userType": values.designation[0]
-    }
-    console.log(JSON.stringify(body))
+      email: values.email,
+      name: values.name,
+      password: values.password,
+      userType: values.designation[0],
+    };
+    console.log(JSON.stringify(body));
     let url = `http://localhost:9090/home/register`;
     fetch(url, {
       method: "POST",

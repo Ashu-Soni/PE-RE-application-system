@@ -67,8 +67,8 @@ let d = [
 
 export default class Application extends Component {
   editFormRef = React.createRef();
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       columns: [],
       data: [],
@@ -76,32 +76,35 @@ export default class Application extends Component {
       view_modal: false,
       filtered_data: [],
     };
-    this.editModalForm = this.editModalForm.bind(this)
-    this.onCancelView = this.onCancelView.bind(this)
+    this.editModalForm = this.editModalForm.bind(this);
+    this.onCancelView = this.onCancelView.bind(this);
   }
 
   componentDidMount = () => {
-    this.setState({columns: cols, data: d, filtered_data: d})
-  }
+    this.setState({ columns: cols, data: d, filtered_data: d });
+  };
 
   onSearch = (value) => {
     let all = this.state.data;
-    
+
     if (value.length === 0) {
-      this.setState({filtered_data: all})
+      this.setState({ filtered_data: all });
       return;
     }
     let searchLower = value.toLowerCase();
     let filtered_data = all.filter((item) => {
-      console.log(item.project)
-      console.log(item.name)
-      if (item.project.toLowerCase().includes(searchLower) || item.name.toLowerCase().includes(searchLower)) {
+      console.log(item.project);
+      console.log(item.name);
+      if (
+        item.project.toLowerCase().includes(searchLower) ||
+        item.name.toLowerCase().includes(searchLower)
+      ) {
         return true;
       }
       return false;
     });
-    console.log(filtered_data)
-    this.setState({filtered_data: filtered_data})
+    console.log(filtered_data);
+    this.setState({ filtered_data: filtered_data });
   };
 
   onSearchChange = (e) => {
@@ -111,9 +114,9 @@ export default class Application extends Component {
   };
 
   onView = (record) => {
-    console.log(record)
-    this.setState({view_data: record, view_modal: true})
-  }
+    console.log(record);
+    this.setState({ view_data: record, view_modal: true });
+  };
 
   editModalForm = () => {
     let record = this.state.view_data;
@@ -124,17 +127,17 @@ export default class Application extends Component {
       skills: record.skills,
       experience: record.experience,
     });
-  }
+  };
 
   onCancelView = () => {
-    this.setState({view_modal: false})
-  }
+    this.setState({ view_modal: false });
+  };
 
   render() {
-    const { columns, data, filtered_data} = this.state;
+    const { columns, data, filtered_data } = this.state;
     return (
       <Layout>
-        <Header style={{backgroundColor: 'whitesmoke'}}>
+        <Header style={{ backgroundColor: "whitesmoke" }}>
           <Search
             placeholder="Search by Project Name or Student Name"
             allowClear
@@ -145,24 +148,28 @@ export default class Application extends Component {
           />
         </Header>
         <Content>
-        <Table dataSource={filtered_data}>
-              <Column key="name" dataIndex={"name"} title="Student Name" />
-              <Column key="project" dataIndex={"project"} title="Project Name"/>
-              <Column key="type" dataIndex={"type"} title="Type"/>
-              <Column key="view" render={(r) => {
-                return(
-                  <Button type='primary' onClick={() => this.onView(r)}>View</Button>
-                )
-              }
-              }/>
-            </Table>
-            <Modal
-              visible={this.state.view_modal}
-              title="Review Application"
-              footer={null}
-            >
-              <ViewApp {...this}{...this.state}></ViewApp>
-            </Modal>
+          <Table dataSource={filtered_data}>
+            <Column key="name" dataIndex={"name"} title="Student Name" />
+            <Column key="project" dataIndex={"project"} title="Project Name" />
+            <Column key="type" dataIndex={"type"} title="Type" />
+            <Column
+              key="view"
+              render={(r) => {
+                return (
+                  <Button type="primary" onClick={() => this.onView(r)}>
+                    View
+                  </Button>
+                );
+              }}
+            />
+          </Table>
+          <Modal
+            visible={this.state.view_modal}
+            title="Review Application"
+            footer={null}
+          >
+            <ViewApp {...this} {...this.state}></ViewApp>
+          </Modal>
         </Content>
       </Layout>
     );
