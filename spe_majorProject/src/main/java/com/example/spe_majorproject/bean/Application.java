@@ -3,10 +3,7 @@ package com.example.spe_majorproject.bean;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Application {
@@ -14,24 +11,24 @@ public class Application {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int aid;
     private int eid;
-    private String studemail;
+    private String email;
     private String facultyemail;
     private String type;
     private String skills;
     private String experience;
-    private String facultyname; // change this name to "faculty"
+    private String faculty; // change this name to "faculty"
     private String studname;
     private String status;
 
     public Application() {
         aid=0;
         eid=0;
-        studemail="none";
+        email="none";
         facultyemail="none";
         type="none";
         skills="none";
         experience="none";
-        facultyname="none";
+        faculty="none";
         studname="none";
         status="none";
     }
@@ -68,12 +65,12 @@ public class Application {
         this.aid = aid;
     }
 
-    public String getStudemail() {
-        return studemail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setStudemail(String studemail) {
-        this.studemail = studemail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFacultyemail() {
@@ -108,12 +105,12 @@ public class Application {
         this.experience = experience;
     }
 
-    public String getFacultyname() {
-        return facultyname;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyname(String facultyname) {
-        this.facultyname = facultyname;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
     @Override
@@ -121,12 +118,12 @@ public class Application {
         return "Application{" +
                 "aid=" + aid +
                 ", eid=" + eid +
-                ", studemail='" + studemail + '\'' +
+                ", email='" + email + '\'' +
                 ", facultyemail='" + facultyemail + '\'' +
                 ", type='" + type + '\'' +
                 ", skills='" + skills + '\'' +
                 ", experience='" + experience + '\'' +
-                ", facultyname='" + facultyname + '\'' +
+                ", faculty='" + faculty + '\'' +
                 ", studname='" + studname + '\'' +
                 ", status='" + status + '\'' +
                 '}';

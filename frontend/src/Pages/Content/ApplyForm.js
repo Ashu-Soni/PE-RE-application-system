@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Form, Typography } from "antd";
+import {Button, Input, Form, Typography, message} from "antd";
 import { FormLabel } from "react-bootstrap";
 
 export default class ApplyForm extends Component {
@@ -13,6 +13,33 @@ export default class ApplyForm extends Component {
 
   onApply = (r, e) => {
     console.log(r);
+    let url=null;
+    if(r.type === "project_elective") {
+      url = `http://localhost:9090/dashboard/ProjectElectives/apply`;
+    } else {
+      url = `http://localhost:9090/dashboard/ResearchElectives/apply`;
+    }
+    console.log(url, JSON.stringify(r));
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(r)
+    })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response)
+          if(response.status === "Success") {
+            message.success("Application successful");
+            this.props.onCancelApply();
+          } else {
+            message.error("Error occured while applying!")
+          }
+          this.setState({projects: response, filtered: response})
+        })
+        .catch((err) => console.log(err));
   };
 
   render() {

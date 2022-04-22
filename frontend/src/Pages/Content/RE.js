@@ -6,30 +6,6 @@ import ApplyForm from "./ApplyForm";
 
 const { Search } = Input;
 
-let projs = [
-  {
-    eid: "1",
-    name: "PE/RE Application System",
-    faculty: "ABC",
-    description: "Hello world",
-    vacancy: 10,
-  },
-  {
-    eid: "2",
-    name: "PE/RE Application System",
-    faculty: "ABC",
-    description: "Hello world",
-    vacancy: 5,
-  },
-  {
-    eid: "3",
-    name: "Health care management",
-    faculty: "sdfsdf",
-    description: "Hello world",
-    vacancy: 4,
-  },
-];
-
 export default class RE extends Component {
   editFormRef = React.createRef();
   constructor(props) {
@@ -46,24 +22,20 @@ export default class RE extends Component {
   }
 
   componentDidMount = () => {
-    // let url = `http://localhost:9090/re`;
-    // fetch(url, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     if (response.status) {
-    //       this.setState({projects: response.projs, filtered: response.projs})
-    //     } else {
-    //       message.error(response.message, 5);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
-    this.setState({ projects: projs, filtered: projs });
+    let url = `http://localhost:9090/dashboard/ResearchElectives`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response)
+          this.setState({projects: response, filtered: response})
+        })
+        .catch((err) => console.log(err));
   };
 
   onSearch = (value) => {
@@ -99,7 +71,7 @@ export default class RE extends Component {
       name: record.name,
       faculty: record.faculty,
       description: record.description,
-      type: "RE",
+      type: "research_elective",
     });
   };
 

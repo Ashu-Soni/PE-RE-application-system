@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, message } from "antd";
 
 export default class ViewApp extends Component {
   componentDidMount = () => {
@@ -10,37 +10,76 @@ export default class ViewApp extends Component {
     this.props.editModalForm();
   };
 
-  accept_application = (values, e) => {
-    console.log(values);
-    // let url = `http://localhost:9090/accept_application`;
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    //   body: JSON.stringify(values),
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     if (response.status) {
-    //       console.log("Registration success!");
-    //       message.success("Registration success!", 1);
-    //       window.location.replace("/login");
-    //     } else {
-    //       console.log("Registration failure!");
-    //       message.success(response.message, 5);
-    //     }
-    //   });
+  accept = (r, e) => {
+    let url = `http://localhost:9090/dashboard/Applications/Accept`;
+    let body = {
+      "aid": r.aid,
+      "eid": r.eid,
+    }
+    console.log(url, JSON.stringify(body))
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.status === "Success") {
+          console.log("Operation success!");
+          message.success("Operation success!", 1);
+        } else {
+          console.log("Operation failure!");
+          message.error(response.message, 5);
+        }
+      }).catch((err) => console.log(err));
   };
+
+  reject = (r, e) => {
+    let url = `http://localhost:9090/dashboard/Applications/Reject`;
+    let body = {
+      "aid": r.aid,
+      "eid": r.eid,
+    }
+    console.log(url, JSON.stringify(body))
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body),
+    })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.status === "Success") {
+            console.log("Operation success!");
+            message.success("Operation success!", 1);
+          } else {
+            console.log("Operation failure!");
+            message.error(response.message, 5);
+          }
+        }).catch((err) => console.log(err));
+  }
 
   render() {
     return (
       <Form
         layout="vertical"
         ref={this.props.editFormRef}
-        onFinish={this.accept_application}
+        onFinish={this.accept}
+        onReset={this.reject}
       >
+        <Form.Item name="aid" label="Application ID">
+          {/*<Input />*/}
+        </Form.Item>
+
+        <Form.Item name="eid" label="Elective ID">
+          {/*<Input />*/}
+        </Form.Item>
+
         <Form.Item name="name" label="Name">
           <Input />
         </Form.Item>
@@ -66,12 +105,12 @@ export default class ViewApp extends Component {
           <Input style={{ height: "150px" }} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType={"submit"}>
             Accept
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button>Reject</Button>
+          <Button htmlType={"reset"}>Reject</Button>
         </Form.Item>
         <Form.Item>
           <Button onClick={this.props.onCancelView}>Cancel</Button>

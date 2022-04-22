@@ -29,6 +29,10 @@ const designation = [
 ];
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   login = (r, e) => {
     console.log(r);
     let body = {
@@ -37,7 +41,8 @@ export default class Login extends Component {
       password: r.password,
     };
     console.log(JSON.stringify(body));
-    let url = "http://localhost:9090/home/login";
+    let url = this.props.url+`home/login`;
+    console.log(url);
     fetch(url, {
       method: "POST",
       headers: {
