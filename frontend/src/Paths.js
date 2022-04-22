@@ -12,24 +12,30 @@ import Home from './Pages/Home/Home';
 import HomeFaculty from './Pages/Home/HomeFaculty';
 
 export default class Paths extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            "url": `http://localhost:9090/`
+        }
+    }
     render(){
         return (
             <Router>
                 <Switch>
                     <Route path="/login">
-                        <Login />
+                        <Login {...this}{...this.state}/>
                     </Route>
 
                     <Route path="/register">
-                        <Register />
+                        <Register {...this}{...this.state}/>
                     </Route>
 
                     <Route path="/home">
-                        <Home />
+                        <Home {...this}/>
                     </Route>
 
                     <Route path="/home_faculty">
-                        <HomeFaculty />
+                        <HomeFaculty {...this}/>
                     </Route>
                     
                     <Route exact path="/">

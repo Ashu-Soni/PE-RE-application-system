@@ -58,7 +58,7 @@ export default class Register extends Component {
       userType: values.designation[0],
     };
     console.log(JSON.stringify(body));
-    let url = `http://localhost:9090/home/register`;
+    let url = this.props.state.url+"home/register";
     fetch(url, {
       method: "POST",
       headers: {

@@ -7,64 +7,6 @@ import ViewApp from "./ViewApp";
 
 const { Search } = Input;
 
-let cols = [
-  {
-    title: "Student Name",
-    dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length,
-    sortDirections: ["descend"],
-  },
-  {
-    title: "Project Name",
-    dataIndex: "project",
-    sorter: (a, b) => a.name.length - b.name.length,
-    sortDirections: ["descend"],
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-  },
-  {
-    Title: "Application",
-    dataIndex: "application",
-  },
-  {
-    Title: "Skills",
-    dataIndex: "skills",
-  },
-  {
-    Title: "Experience",
-    dataIndex: "experience",
-  },
-];
-
-let d = [
-  {
-    key: "1",
-    name: "Ashutosh Soni",
-    project: "PE/RE Application System",
-    type: "Project Elective",
-    skills: "afsdfjdnkjndfkjnd, dfsdfsdf",
-    experience: "fsdfsdf",
-  },
-  {
-    key: "2",
-    name: "Shivani sheth",
-    project: "Crosslayer optimization",
-    type: "Research Elective",
-    skills: "afsdfjdnkjndfkjnd, dfsdfsdf",
-    experience: "fsdfsdf",
-  },
-  {
-    key: "3",
-    name: "Meet Goswami",
-    project: "Backend Management",
-    type: "Project Elective",
-    skills: "afsdfjdnkjndfkjnd, dfsdfsdf",
-    experience: "fsdfsdf",
-  },
-];
-
 export default class Application extends Component {
   editFormRef = React.createRef();
   constructor(props) {
@@ -75,13 +17,31 @@ export default class Application extends Component {
       view_data: {},
       view_modal: false,
       filtered_data: [],
+      aid_selected: null,
     };
     this.editModalForm = this.editModalForm.bind(this);
     this.onCancelView = this.onCancelView.bind(this);
   }
 
   componentDidMount = () => {
-    this.setState({ columns: cols, data: d, filtered_data: d });
+    let url = `http://localhost:9090/dashboard/Applications`
+    let body = {
+      "facultyemail": sessionStorage.getItem("email"),
+    }
+    console.log(JSON.stringify(body))
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body)
+    }).then(res => res.json())
+        .then(response => {
+          console.log(response);
+          this.setState({data: response, filtered_data: response})
+        })
+    // this.setState({ columns: cols, data: d, filtered_data: d });
   };
 
   onSearch = (value) => {
@@ -121,8 +81,10 @@ export default class Application extends Component {
   editModalForm = () => {
     let record = this.state.view_data;
     this.editFormRef.current.setFieldsValue({
+      eid: record.eid,
+      aid: record.aid,
       name: record.name,
-      project: record.project,
+      project: record.eid,
       type: record.type,
       skills: record.skills,
       experience: record.experience,
@@ -149,8 +111,8 @@ export default class Application extends Component {
         </Header>
         <Content>
           <Table dataSource={filtered_data}>
-            <Column key="name" dataIndex={"name"} title="Student Name" />
-            <Column key="project" dataIndex={"project"} title="Project Name" />
+            <Column key="studname" dataIndex={"studname"} title="Student Name" />
+            <Column key="eid" dataIndex={"eid"} title="Project Name" /> {/*We need to add project name here*/}
             <Column key="type" dataIndex={"type"} title="Type" />
             <Column
               key="view"

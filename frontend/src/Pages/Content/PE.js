@@ -1,4 +1,4 @@
-import { Col, Row, Table, Button, Input, Form, Typography } from "antd";
+import { Col, Row, Table, Button, Input, message, Form, Typography } from "antd";
 import Layout, { Content, Header } from "antd/lib/layout/layout";
 import Modal from "antd/lib/modal/Modal";
 import Column from "antd/lib/table/Column";
@@ -6,30 +6,6 @@ import React, { Component, useState } from "react";
 import ApplyForm from "./ApplyForm";
 
 const { Search } = Input;
-
-let projs = [
-  {
-    eid: "1",
-    name: "PE/RE Application System",
-    faculty: "ABC",
-    description: "Hello world",
-    vacancy: 10,
-  },
-  {
-    eid: "2",
-    name: "PE/RE Application System",
-    faculty: "ABC",
-    description: "Hello world",
-    vacancy: 5,
-  },
-  {
-    eid: "3",
-    name: "Health care management",
-    faculty: "sdfsdf",
-    description: "Hello world",
-    vacancy: 4,
-  },
-];
 
 export default class PE extends Component {
   editFormRef = React.createRef();
@@ -47,24 +23,20 @@ export default class PE extends Component {
   }
 
   componentDidMount = () => {
-    // let url = `http://localhost:9090/pe`;
-    // fetch(url, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     if (response.status) {
-    //       this.setState({projects: response.projs, filtered: response.projs})
-    //     } else {
-    //       message.error(response.message, 5);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
-    this.setState({ projects: projs, filtered: projs });
+    let url = `http://localhost:9090/dashboard/ProjectElectives`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response)
+        this.setState({projects: response, filtered: response})
+      })
+      .catch((err) => console.log(err));
   };
 
   onSearch = (value) => {
@@ -100,7 +72,7 @@ export default class PE extends Component {
       name: record.name,
       faculty: record.faculty,
       description: record.description,
-      type: "PE",
+      type: "project_elective",
     });
   };
 

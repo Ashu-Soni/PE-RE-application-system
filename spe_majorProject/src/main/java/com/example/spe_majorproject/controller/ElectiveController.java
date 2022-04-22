@@ -34,17 +34,20 @@ public class ElectiveController {
   private StudentRepository studentRepository;
 
   @GetMapping("/ProjectElectives")
-  public List<Elective> getProjectElectives()
+  public ResponseEntity<List<Elective>> getProjectElectives()
   {
-    List<Elective> projectElectives=electiverepo.findByType("PE");
-    return projectElectives;
+    List<Elective> projectElectives=electiverepo.findByType("project_elective");
+
+    return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(projectElectives);
   }
 
   @GetMapping("/ResearchElectives")
-  public List<Elective> getResearchElectives()
+  public ResponseEntity<List<Elective>> getResearchElectives()
   {
-    List<Elective> researchElectives=electiverepo.findByType("RE");
-    return researchElectives;
+    List<Elective> researchElectives=electiverepo.findByType("research_elective");
+    return ResponseEntity.ok().header("Content-Type", "application/json")
+            .body(researchElectives);
   }
 
   @GetMapping("/getAllElectives")
@@ -57,7 +60,7 @@ public class ElectiveController {
   public ResponseEntity<Response> applyForPE(@RequestBody Application application)
   {
     Response response=new Response();
-    Student student=studentRepository.findById(application.getStudemail()).orElse(new Student());
+    Student student=studentRepository.findById(application.getEmail()).orElse(new Student());
     Elective elective=electiverepo.findById(application.getEid()).orElse(new Elective());
     String studentName=student.getName();
     String factemail=elective.getEmail();
@@ -65,6 +68,7 @@ public class ElectiveController {
     {
       application.setStudname(studentName);
       application.setFacultyemail(factemail);
+      application.setStatus("Pending");
       apprepo.save(application);
       response.setStatus("Success");
       response.setMessage("Application submitted successfully");
@@ -81,11 +85,18 @@ public class ElectiveController {
   public ResponseEntity<Response> applyForRE(@RequestBody Application application)
   {
     Response response=new Response();
-    Student student=studentRepository.findById(application.getStudemail()).orElse(new Student());
+    Student student=studentRepository.findById(application.getEmail()).orElse(new Student());
+    Elective elective=electiverepo.findById(application.getEid()).orElse(new Elective());
     String studentName=student.getName();
+    System.out.println(application);
+    System.out.println(studentName);
+    String factemail=elective.getEmail();
     if(!studentName.equals("none"))
     {
       application.setStudname(studentName);
+      application.setFacultyemail(factemail);
+      application.setStatus("Pending");
+      System.out.println(application);
       apprepo.save(application);
       response.setStatus("Success");
       response.setMessage("Application submitted successfully");
@@ -144,7 +155,7 @@ public class ElectiveController {
             .body(response);
   }
 
-  @GetMapping("/Applications")
+  @PostMapping ("/Applications")
   public List<Application> getApplications(@RequestBody Map<String,String> factEmail)
   {
     return apprepo.findByFacultyemail(factEmail.get("facultyemail"));
@@ -159,7 +170,7 @@ public class ElectiveController {
     int eid=application.get("eid");
     Application appl=apprepo.findById(aid).orElse(new Application());
     Elective elec=electiverepo.findById(eid).orElse(new Elective());
-    if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
+    if(appl.getEmail().equals("none") || !appl.getStatus().equals("Pending"))
     {
       response.setStatus("Failed");
       response.setMessage("Invalid student id");
@@ -203,7 +214,7 @@ public class ElectiveController {
     Response response=new Response();
     int aid=application.get("aid");
     Application appl=apprepo.findById(aid).orElse(new Application());
-    if(appl.getStudemail().equals("none") || !appl.getStatus().equals("Pending"))
+    if(appl.getEmail().equals("none") || !appl.getStatus().equals("Pending"))
     {
       response.setStatus("Failed");
       response.setMessage("Invalid student id");
