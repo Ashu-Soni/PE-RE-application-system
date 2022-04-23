@@ -82,9 +82,9 @@ export default class Register extends Component {
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.status) {
+        if (response.status === "Success") {
           console.log("Registration success!");
-          message.success("Registration success!", 1);
+          message.success(response.message, 1);
           this.props.onCancelRegisterStudent();
         } else {
           console.log("Registration failure!");

@@ -171,6 +171,14 @@ public class ElectiveController {
     if(!factname.equals("none"))
     {
       elective.setFaculty(factname.getName());
+      if(elective.getType().equals("project_elective"))
+      {
+        elective.setType("Project Elective");
+      }
+      if(elective.getType().equals("research_elective"))
+      {
+        elective.setType("Research Elective");
+      }
       electiverepo.save(elective);
       response.setStatus("Success");
       response.setMessage("Elective details updated successfully");

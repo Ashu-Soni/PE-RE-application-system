@@ -68,10 +68,11 @@ export default class Login extends Component {
           sessionStorage.setItem("email", r.email);
           sessionStorage.setItem("designation", r.designation[0]);
           sessionStorage.setItem("logged_in", "true");
+          message.success(response.message, 1)
         } else {
           console.log("error", response);
           sessionStorage.setItem("logged_in", "false");
-          message.error("Invalid Email or Password", 5);
+          message.error(response.message, 5);
         }
         if (sessionStorage.getItem("logged_in") === "true") {
           if (sessionStorage.getItem("designation") !== "professor") {
@@ -168,12 +169,6 @@ export default class Login extends Component {
                     Faculty Register
                   </Button>
                 </Form.Item>
-
-                {/* <Form.Item>
-                  <Button className="login-form-button" onClick={this.register}>
-                    or Register
-                  </Button>
-                </Form.Item> */}
               </Form>
             </Row>
           </div>

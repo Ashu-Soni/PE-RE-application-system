@@ -53,9 +53,7 @@ export default class Manage extends Component {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         this.setState({ electives: response });
-        console.log(this.state.electives);
       })
       .catch((err) => console.log(err));
   };
@@ -83,9 +81,9 @@ export default class Manage extends Component {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        if (response.status) {
+        if (response.status === "Success") {
           console.log("Added Elective successfully!");
-          message.success("Added Elective successfully!", 1);
+          message.success(response.message, 1);
           this.setState({ add_project: false });
         } else {
           console.log("failure!");
@@ -109,6 +107,7 @@ export default class Manage extends Component {
     console.log(this.state.elective_data)
     console.log(record.name)
     this.editFormRef.current.setFieldsValue({
+      eid: record.eid,
       project_name: record.name,
       type: record.type,
       description: record.description,

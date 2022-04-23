@@ -33,7 +33,6 @@ export default class PE extends Component {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response)
         this.setState({projects: response, filtered: response})
       })
       .catch((err) => console.log(err));

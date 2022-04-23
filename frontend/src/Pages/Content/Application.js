@@ -38,9 +38,8 @@ export default class Application extends Component {
       body: JSON.stringify(body)
     }).then(res => res.json())
         .then(response => {
-          console.log(response);
           this.setState({data: response, filtered_data: response})
-        })
+        }).catch((err) => console.log(err));
   };
 
   onSearch = (value) => {
@@ -52,10 +51,8 @@ export default class Application extends Component {
     }
     let searchLower = value.toLowerCase();
     let filtered_data = all.filter((item) => {
-      console.log(item.project);
-      console.log(item.name);
       if (
-        item.project.toLowerCase().includes(searchLower) ||
+        item.studname.toLowerCase().includes(searchLower) ||
         item.name.toLowerCase().includes(searchLower)
       ) {
         return true;
@@ -111,7 +108,7 @@ export default class Application extends Component {
         <Content>
           <Table dataSource={filtered_data}>
             <Column key="studname" dataIndex={"studname"} title="Student Name" />
-            <Column key="eid" dataIndex={"eid"} title="Project Name" /> {/*We need to add project name here*/}
+            <Column key="name" dataIndex={"name"} title="Project Name" /> {/*We need to add project name here*/}
             <Column key="type" dataIndex={"type"} title="Type" />
             <Column
               key="view"

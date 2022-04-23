@@ -32,10 +32,10 @@ export default class ApplyForm extends Component {
         .then((response) => {
           console.log(response)
           if(response.status === "Success") {
-            message.success("Application successful");
+            message.success(response.message);
             this.props.onCancelApply();
           } else {
-            message.error("Error occured while applying!")
+            message.error(response.message)
           }
           this.setState({projects: response, filtered: response})
         })
