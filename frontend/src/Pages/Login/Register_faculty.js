@@ -52,7 +52,7 @@ export default class RegisterFaculty extends Component {
     };
 
     console.log(JSON.stringify(body));
-    let url = this.props.state.url+"home/register_faculty";
+    let url = "http://localhost:9090/home/register_faculty";
     fetch(url, {
       method: "POST",
       headers: {
