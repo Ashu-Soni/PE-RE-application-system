@@ -83,6 +83,51 @@ public class MainController {
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body(response);
 	}
-
+	@PostMapping("/register_student")
+	public ResponseEntity<Response> registerStudent(@RequestBody Student newStudent)
+	{
+		Response response=new Response();
+		if(usercredrepo.existsById(newStudent.getEmail()))
+		{
+			response.setStatus("Failed");
+			response.setMessage("User already exists");
+			return ResponseEntity.badRequest().header("Content-Type", "application/json")
+					.body(response);
+		}
+		UserCredentials userCredentials=new UserCredentials();
+		userCredentials.setEmail(newStudent.getEmail());
+		userCredentials.setPassword(newStudent.getPassword());
+		userCredentials.setName(newStudent.getName());
+		userCredentials.setUserType("Student");
+		usercredrepo.save(userCredentials);
+		studentRepository.save(newStudent);
+		response.setStatus("Success");
+		response.setMessage("User registered successfully");
+		return ResponseEntity.ok().header("Content-Type", "application/json")
+				.body(response);
+	}
+	@PostMapping("/register_faculty")
+	public ResponseEntity<Response> registerStudent(@RequestBody Faculty newFaculty)
+	{
+		Response response=new Response();
+		if(usercredrepo.existsById(newFaculty.getEmail()))
+		{
+			response.setStatus("Failed");
+			response.setMessage("User already exists");
+			return ResponseEntity.badRequest().header("Content-Type", "application/json")
+					.body(response);
+		}
+		UserCredentials userCredentials=new UserCredentials();
+		userCredentials.setEmail(newFaculty.getEmail());
+		userCredentials.setPassword(newFaculty.getPassword());
+		userCredentials.setName(newFaculty.getName());
+		userCredentials.setUserType("Faculty");
+		usercredrepo.save(userCredentials);
+		facultyRepository.save(newFaculty);
+		response.setStatus("Success");
+		response.setMessage("User registered successfully");
+		return ResponseEntity.ok().header("Content-Type", "application/json")
+				.body(response);
+	}
 
 }
