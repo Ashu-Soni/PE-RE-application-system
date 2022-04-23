@@ -9,10 +9,13 @@ import {
   Typography,
   Layout,
   message,
+  Modal,
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import "./Login.css";
+import Register from "./Register";
+import RegisterFaculty from "./Register_faculty";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
@@ -31,6 +34,12 @@ const designation = [
 export default class Login extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      register_student: false,
+      register_faculty: false,
+    }
+    this.onCancelRegisterFaculty = this.onCancelRegisterFaculty.bind(this)
+    this.onCancelRegisterStudent = this.onCancelRegisterStudent.bind(this)
   }
 
   login = (r, e) => {
@@ -75,13 +84,18 @@ export default class Login extends Component {
       .catch((err) => console.log(err));
   };
 
-  register = () => {
-    window.location.replace("/register");
-  };
+  onCancelRegisterFaculty = () => {
+    this.setState({register_faculty: false})
+  }
+
+  onCancelRegisterStudent = () => {
+    this.setState({register_student: false})
+  }
+
 
   render() {
     return (
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight: "100vh"}}>
         <Content>
           <div>
             <Row justify="center" align="middle">
@@ -147,14 +161,38 @@ export default class Login extends Component {
                 </Form.Item>
 
                 <Form.Item>
+                  <Button className="login-form-button" onClick={() => {this.setState({register_student: true})}}>
+                    Student Register
+                  </Button>
+                  <Button className="login-form-button" onClick={() => {this.setState({register_faculty: true})}}>
+                    Faculty Register
+                  </Button>
+                </Form.Item>
+
+                {/* <Form.Item>
                   <Button className="login-form-button" onClick={this.register}>
                     or Register
                   </Button>
-                </Form.Item>
+                </Form.Item> */}
               </Form>
             </Row>
           </div>
         </Content>
+        <Modal
+          visible={this.state.register_faculty}
+          title="Faculty Registration"
+          footer={null}
+          style={{width: "100%"}}
+        >
+          <RegisterFaculty {...this}/>
+        </Modal>
+        <Modal
+          visible={this.state.register_student}
+          title="Student Registration"
+          footer={null}
+        >
+          <Register {...this}/>
+        </Modal>
         <Footer style={{ textAlign: "center" }}>
           {" "}
           Created by Ashutosh soni - MT2021026 ©2022

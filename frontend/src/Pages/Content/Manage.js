@@ -11,6 +11,7 @@ import {
 } from "antd";
 import React, { Component } from "react";
 import Column from "antd/lib/table/Column";
+import EditElective from "./EditElective";
 
 const types = [
   {
@@ -24,10 +25,17 @@ const types = [
 ];
 
 export default class Manage extends Component {
-  state = {
-    add_project: false,
-    electives: [],
-  };
+  editFormRef = React.createRef();
+  constructor(props){
+    super(props)
+    this.state = {
+      add_project: false,
+      edit_elective: false,
+      elective_data: {},
+      electives: [],
+    }
+    this.onCancelEdit = this.onCancelEdit.bind(this)
+  }
 
   handleAddProject = () => {
     this.setState({ add_project: true });
@@ -78,7 +86,6 @@ export default class Manage extends Component {
         if (response.status) {
           console.log("Added Elective successfully!");
           message.success("Added Elective successfully!", 1);
-          // window.location.replace("/login");
           this.setState({ add_project: false });
         } else {
           console.log("failure!");
@@ -86,6 +93,27 @@ export default class Manage extends Component {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  onCancelEdit = () => {
+    this.setState({edit_elective: false});
+  }
+
+  onEdit = (r) => {
+    console.log(r)
+    this.setState({edit_elective: true, elective_data: r})
+  }
+
+  editModalForm = () => {
+    let record = this.state.elective_data;
+    console.log(this.state.elective_data)
+    console.log(record.name)
+    this.editFormRef.current.setFieldsValue({
+      project_name: record.name,
+      type: record.type,
+      description: record.description,
+      slots: record.vacancy,
+    });
   };
 
   render() {
@@ -107,7 +135,7 @@ export default class Manage extends Component {
                 <Column
                   key="edit"
                   render={(r) => {
-                    return <Button type="primary">Edit</Button>;
+                    return <Button type="primary" onClick={() => this.onEdit(r)}>Edit</Button>;
                   }}
                 ></Column>
               </Table>
@@ -198,6 +226,13 @@ export default class Manage extends Component {
               </Button>
             </Form.Item>
           </Form>
+        </Modal>
+        <Modal
+          visible={this.state.edit_elective}
+          title="Edit Elective Information"
+          footer={null}
+        >
+          <EditElective {...this}/>
         </Modal>
       </div>
     );
