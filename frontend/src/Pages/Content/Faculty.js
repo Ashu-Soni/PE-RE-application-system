@@ -5,66 +5,6 @@ import Layout, { Content, Header } from "antd/lib/layout/layout";
 
 const { Search } = Input;
 
-let cols = [
-  {
-    title: "Professor Name",
-    dataIndex: "professor",
-  },
-  {
-    title: "Designation",
-    dataIndex: "designation",
-  },
-  {
-    title: "Research Interest",
-    dataIndex: "research_interest",
-  },
-  {
-    title: "Email ID",
-    dataIndex: "email_id",
-  },
-  {
-    title: "Cabin No.",
-    dataIndex: "cabin",
-  },
-  {
-    title: "Details",
-    dataIndex: "details",
-  },
-];
-
-let prof_data = [
-  {
-    key: 1,
-    professor: "Shrisha Rao",
-    designation: "Assistant Professor",
-    research_interest:
-      "renewable energy, intelligent transportation systems, computational sustainability, agent-based modeling, artificial intelligence",
-    email_id: "srao-AT-iiitb.ac.in",
-    cabin: "A-208",
-    details: "https://www.iiitb.ac.in/faculty/shrisha-rao",
-  },
-  {
-    key: 2,
-    professor: "Sarika Vadodariya",
-    designation: "Assistant Professor",
-    research_interest:
-      "renewable energy, intelligent transportation systems, computational sustainability, agent-based modeling, artificial intelligence",
-    email_id: "srao-AT-iiitb.ac.in",
-    cabin: "A-208",
-    details: "https://www.iiitb.ac.in/faculty/shrisha-rao",
-  },
-  {
-    key: 3,
-    professor: "Shrisha Rao",
-    designation: "Assistant Professor",
-    research_interest:
-      "renewable energy, intelligent transportation systems, computational sustainability, agent-based modeling, artificial intelligence",
-    email_id: "srao-AT-iiitb.ac.in",
-    cabin: "A-208",
-    details: "https://www.iiitb.ac.in/faculty/shrisha-rao",
-  },
-];
-
 export default class Faculty extends Component {
   constructor(props) {
     super(props);
@@ -76,7 +16,18 @@ export default class Faculty extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({ data: prof_data, columns: cols, filtered: prof_data });
+    let url = "http://localhost:9090/dashboard/Faculty"
+    console.log(url)
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }).then((res) => res.json())
+      .then((response) => {
+        this.setState({data: response, filtered: response})
+      }).catch((err) => console.log(err));
   };
 
   onSearch = (value) => {
@@ -89,7 +40,7 @@ export default class Faculty extends Component {
     let searchLower = value.toLowerCase();
     let filtered_projects = data.filter((item) => {
       console.log(item.professor);
-      if (item.professor.toLowerCase().includes(searchLower)) {
+      if (item.name.toLowerCase().includes(searchLower)) {
         return true;
       }
       return false;
@@ -105,7 +56,7 @@ export default class Faculty extends Component {
   };
 
   render() {
-    const { data, filtered } = this.state;
+    const { filtered } = this.state;
 
     return (
       <Layout>
@@ -121,24 +72,25 @@ export default class Faculty extends Component {
         </Header>
         <Content>
           <Table dataSource={filtered}>
-            <Column key="professor" dataIndex={"professor"} title="Professor" />
+            <Column key="name" dataIndex={"name"} title="Professor Name" />
             <Column
               key="designation"
               dataIndex={"designation"}
               title="Designation"
             />
             <Column
-              key="research_interest"
-              dataIndex="research_interest"
+              key="research"
+              dataIndex="research"
               title="Research Interest"
             />
-            <Column key="email_id" dataIndex="email_id" title="Email ID" />
-            <Column key="cabin" dataIndex="cabin" title="Cabin No." />
+            <Column key="email" dataIndex="email" title="Email ID" />
+            <Column key="phone" dataIndex="phone" title="Contact No." />
+            <Column key="office" dataIndex="office" title="Cabin No." />
             <Column
               key="details"
               render={(r) => {
                 return (
-                  <Button type="primary" href={r.details}>
+                  <Button type="primary" href={r.website}>
                     Details
                   </Button>
                 );

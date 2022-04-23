@@ -13,18 +13,14 @@ import { MessageOutlined, LikeOutlined, StarOutlined } from "@ant-design/icons";
 import Layout, { Content, Header } from "antd/lib/layout/layout";
 const { Title } = Typography;
 
-const listData = [];
-for (let i = 0; i < 5; i++) {
-  listData.push({
-    name: "PE RE Application System",
-    type: "Project Elective",
-    faculty: `Sarika Patel`,
-    facultyemail: "abc@gmail.com",
-    status: "Rejected",
-  });
-}
-
 export default class StudentDashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listData: [],
+    };
+  }
+
   checkForTag = (value) => {
     let renderTab = null;
     switch (value) {
@@ -43,7 +39,29 @@ export default class StudentDashboard extends Component {
     }
     return renderTab;
   };
+
+  componentDidMount = () => {
+    let url = "http://localhost:9090/dashboard/MyApplications";
+    let body = {
+      studentemail: sessionStorage.getItem("email"),
+    };
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        this.setState({ listData: response });
+      })
+      .catch((err) => console.log(err));
+  };
+
   render() {
+    const {listData} = this.state;
     return (
       <Layout>
         <Header style={{ backgroundColor: "lightgray", textAlign: "center" }}>

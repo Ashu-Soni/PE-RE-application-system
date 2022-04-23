@@ -19,37 +19,34 @@ export default class EditElective extends Component {
 
   edit_elective = (r, e) => {
     console.log(r);
-    // let body = {
-    //   name: r.project_name,
-    //   description: r.description,
-    //   vacancy: r.slots,
-    //   email: sessionStorage.getItem("email"),
-    //   type: r.type[0],
-    // };
-    // console.log(JSON.stringify(body));
-
-    // let url = `http://localhost:9090/dashboard/MyElectives/Add`;
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     console.log(response);
-    //     if (response.status) {
-    //       console.log("Added Elective successfully!");
-    //       message.success("Added Elective successfully!", 1);
-    //       this.setState({ add_project: false });
-    //     } else {
-    //       console.log("failure!");
-    //       message.error(response.message, 5);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
+    let url = `http://localhost:9090/dashboard/MyElectives/Update`
+    let body = {
+      eid: r.eid,
+      name: r.project_name,
+      description: r.description,
+      vacancy: r.slots,
+      email: sessionStorage.getItem("email"),
+      type: r.type[0],  
+    };
+    console.log(JSON.stringify(body))
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(body)
+    }).then(res => res.json())
+        .then(response => {
+          console.log(response);
+          if(response.status === "Success") {
+            this.props.onCancelEdit();
+            message.success(response.message, 0)
+          } else {
+            this.props.onCancelEdit();
+            message.error(response.message, 5)
+          }
+        }).catch((err) => console.log(err));
   };
 
   render() {
@@ -59,6 +56,12 @@ export default class EditElective extends Component {
         onFinish={this.edit_elective}
         ref={this.props.editFormRef}
       >
+        <Form.Item
+          name="eid"
+          label="Elective ID"
+        >
+          <Input />
+        </Form.Item>
         <Form.Item
           name="project_name"
           label="Project Name"
@@ -78,7 +81,7 @@ export default class EditElective extends Component {
             {
               type: "array",
               required: true,
-              message: "Project Name is required!",
+              message: "Elective type is required!",
             },
           ]}
         >
