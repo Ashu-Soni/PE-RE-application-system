@@ -36,7 +36,7 @@ public class ElectiveController {
   @GetMapping("/ProjectElectives")
   public ResponseEntity<List<Elective>> getProjectElectives()
   {
-    List<Elective> projectElectives=electiverepo.findByType("project_elective");
+    List<Elective> projectElectives=electiverepo.findByType("Project Elective");
 
     return ResponseEntity.ok().header("Content-Type", "application/json")
             .body(projectElectives);
@@ -45,7 +45,7 @@ public class ElectiveController {
   @GetMapping("/ResearchElectives")
   public ResponseEntity<List<Elective>> getResearchElectives()
   {
-    List<Elective> researchElectives=electiverepo.findByType("research_elective");
+    List<Elective> researchElectives=electiverepo.findByType("Research Elective");
     return ResponseEntity.ok().header("Content-Type", "application/json")
             .body(researchElectives);
   }
@@ -142,6 +142,14 @@ public class ElectiveController {
     if(!factname.equals("none"))
     {
       elective.setFaculty(factname.getName());
+      if(elective.getType().equals("project_elective"))
+      {
+          elective.setType("Project Elective");
+      }
+      if(elective.getType().equals("research_elective"))
+      {
+          elective.setType("Research Elective");
+      }
       electiverepo.save(elective);
       response.setStatus("Success");
       response.setMessage("New Elective added successfully");
