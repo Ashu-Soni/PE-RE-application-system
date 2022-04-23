@@ -19,6 +19,7 @@ public class Application {
     private String faculty; // change this name to "faculty"
     private String studname;
     private String status;
+    private String name;
 
     public Application() {
         aid=0;
@@ -31,6 +32,16 @@ public class Application {
         faculty="none";
         studname="none";
         status="none";
+        name="none";
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getEid() {
@@ -126,6 +137,7 @@ public class Application {
                 ", faculty='" + faculty + '\'' +
                 ", studname='" + studname + '\'' +
                 ", status='" + status + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
