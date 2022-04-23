@@ -64,10 +64,20 @@ public class ElectiveController {
     Elective elective=electiverepo.findById(application.getEid()).orElse(new Elective());
     String studentName=student.getName();
     String factemail=elective.getEmail();
+    String projectName=elective.getName();
+    Application existing_application=apprepo.findByEmailAndEid(application.getEmail(),application.getEid());
+    if(existing_application!=null)
+    {
+      response.setStatus("Failed");
+      response.setMessage("Application submission failed because you have already applied to this elective");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
+    }
     if(!studentName.equals("none") && !factemail.equals("none"))
     {
       application.setStudname(studentName);
       application.setFacultyemail(factemail);
+      application.setName(projectName);
       application.setStatus("Pending");
       apprepo.save(application);
       response.setStatus("Success");
@@ -91,10 +101,20 @@ public class ElectiveController {
     System.out.println(application);
     System.out.println(studentName);
     String factemail=elective.getEmail();
-    if(!studentName.equals("none"))
+    String projectName=elective.getName();
+    Application existing_application=apprepo.findByEmailAndEid(application.getEmail(),application.getEid());
+    if(existing_application!=null)
+    {
+      response.setStatus("Failed");
+      response.setMessage("Application submission failed because you have already applied to this elective");
+      return ResponseEntity.badRequest().header("Content-Type", "application/json")
+              .body(response);
+    }
+    if(!studentName.equals("none")  && !factemail.equals("none"))
     {
       application.setStudname(studentName);
       application.setFacultyemail(factemail);
+      application.setName(projectName);
       application.setStatus("Pending");
       System.out.println(application);
       apprepo.save(application);
@@ -154,11 +174,17 @@ public class ElectiveController {
     return ResponseEntity.badRequest().header("Content-Type", "application/json")
             .body(response);
   }
+  @PostMapping("/MyApplications")
+  public List<Application> getStudentApplications(@RequestBody Map<String ,String> studEmail)
+  {
+    return apprepo.findByEmail(studEmail.get("studentemail"));
+  }
 
   @PostMapping ("/Applications")
   public List<Application> getApplications(@RequestBody Map<String,String> factEmail)
   {
-    return apprepo.findByFacultyemail(factEmail.get("facultyemail"));
+    String status="Pending";
+    return apprepo.findByFacultyemailAndStatus(factEmail.get("facultyemail"),status);
   }
 
 
@@ -228,5 +254,11 @@ public class ElectiveController {
     response.setMessage("Application rejected successfully");
     return ResponseEntity.ok().header("Content-Type", "application/json")
             .body(response);
+  }
+
+  @GetMapping("/Faculty")
+  public List<Faculty> getFaculty()
+  {
+    return factrepo.findAll();
   }
 }

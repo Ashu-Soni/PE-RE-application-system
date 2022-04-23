@@ -12,6 +12,7 @@ public class Student {
     private String degree;
     private String mobile;
     private String branch;
+    private String password;
 
     public Student() {
         email="none";
@@ -20,6 +21,14 @@ public class Student {
         degree="none";
         mobile="none";
         branch="none";
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
