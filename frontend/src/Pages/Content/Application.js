@@ -41,7 +41,6 @@ export default class Application extends Component {
           console.log(response);
           this.setState({data: response, filtered_data: response})
         })
-    // this.setState({ columns: cols, data: d, filtered_data: d });
   };
 
   onSearch = (value) => {
