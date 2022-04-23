@@ -6,10 +6,10 @@ import {
   ProjectOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import Feed from "../Content/Feed";
 import PE from "../Content/PE";
 import RE from "../Content/RE";
 import Faculty from "../Content/Faculty";
+import StudentDashboard from "../Content/StudentDashboard";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -38,11 +38,11 @@ export default class Home extends Component {
   };
 
   render() {
-    let renderTab = <Feed />;
+    let renderTab = null;
     const { selected_tab, collapsed } = this.state;
     switch (selected_tab) {
-      case "home":
-        renderTab = <Feed />;
+      case "dashboard":
+        renderTab = <StudentDashboard />;
         break;
       case "pe":
         renderTab = <PE {...this}></PE>;
@@ -54,7 +54,7 @@ export default class Home extends Component {
         renderTab = <Faculty {...this}></Faculty>;
         break;
       default:
-        renderTab = <Feed />;
+        renderTab = <StudentDashboard />;
         break;
     }
     return (
@@ -86,13 +86,13 @@ export default class Home extends Component {
                 defaultSelectedKeys={[this.selected_tab]}
               >
                 <Menu.Item
-                  key="home"
+                  key="dashboard"
                   icon={<HomeOutlined />}
                   onClick={(e) => {
                     this.onTabChange(e);
                   }}
                 >
-                  Home
+                  Dashboard
                 </Menu.Item>
                 <Menu.Item
                   key="pe"
