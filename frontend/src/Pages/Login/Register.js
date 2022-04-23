@@ -71,7 +71,7 @@ export default class Register extends Component {
       branch: values.branch[0],
     };
     console.log(JSON.stringify(body));
-    let url = this.props.state.url+"home/register_student";
+    let url = "http://localhost:9090/home/register_student";
     fetch(url, {
       method: "POST",
       headers: {
