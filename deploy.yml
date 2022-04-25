@@ -17,4 +17,4 @@
         mode: 0777
     
     - name: Start the application
-      shell: docker-compose up
+      shell: docker compose up
