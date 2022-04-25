@@ -18,6 +18,15 @@ export default class Paths extends Component {
             "url": `http://localhost:9090/`
         }
     }
+
+    authGuard = (Component) => () => {
+        return sessionStorage.getItem("logged_in") ? (
+            <Component {...this}/>
+        ) : (
+            <Redirect to="/login" />
+        );
+    };
+
     render(){
         return (
             <Router>
@@ -26,17 +35,13 @@ export default class Paths extends Component {
                         <Login {...this}{...this.state}/>
                     </Route>
 
-                    <Route path="/register">
-                        <Register {...this}{...this.state}/>
-                    </Route>
+                    <Route path="/home" render={this.authGuard(Home)} />
+                        {/* <Home {...this}/>
+                    </Route> */}
 
-                    <Route path="/home">
-                        <Home {...this}/>
-                    </Route>
-
-                    <Route path="/home_faculty">
-                        <HomeFaculty {...this}/>
-                    </Route>
+                    <Route path="/home_faculty" render={this.authGuard(HomeFaculty)} />
+                    {/* //     <HomeFaculty {...this}/>
+                    // </Route> */}
                     
                     <Route exact path="/">
                         <Redirect to="/login" /> 
