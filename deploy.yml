@@ -8,10 +8,13 @@
         state: started
 
     - name: Copy docker compose file
-      become: true
+      become: false
       copy:
         src: ./docker-compose.yml
         dest: ./
+        owner: meet
+        group: meet
+        mode: 0777
     
     - name: Start the application
       shell: docker-compose up
