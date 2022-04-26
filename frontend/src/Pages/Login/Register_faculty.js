@@ -10,7 +10,7 @@ import {
   message,
 } from "antd";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer } = Layout;
 
 const formItemLayout = {
   labelCol: {
@@ -36,42 +36,23 @@ const tailFormItemLayout = {
   },
 };
 
-const program = [
-  {
-    value: "mtech",
-    label: "MTech",
-  },
-  {
-    value: "i_mtech",
-    label: "IMTech",
-  },
-];
-
-const branch = [
-  {
-    value: "cse",
-    label: "CSE",
-  },
-  {
-    value: "ece",
-    label: "ECE",
-  },
-];
-
-export default class Register extends Component {
+export default class RegisterFaculty extends Component {
   register = (values, e) => {
     console.log(values);
+
     let body = {
       email: values.email,
       name: values.name,
       password: values.password,
-      rollno: values.roll_no,
-      degree: values.program[0],
-      mobile: values.contact,
-      branch: values.branch[0],
+      office: values.cabin,
+      designation: values.designation,
+      phone: values.contact,
+      research: values.research_interest,
+      website: values.website,
     };
+
     console.log(JSON.stringify(body));
-    let url = "http://localhost:9090/home/register_student";
+    let url = "http://localhost:9090/home/register_faculty";
     fetch(url, {
       method: "POST",
       headers: {
@@ -85,7 +66,7 @@ export default class Register extends Component {
         if (response.status === "Success") {
           console.log("Registration success!");
           message.success(response.message, 1);
-          this.props.onCancelRegisterStudent();
+          this.props.onCancelRegisterFaculty();
         } else {
           console.log("Registration failure!");
           message.success(response.message, 5);
@@ -179,24 +160,24 @@ export default class Register extends Component {
                 </Form.Item>
 
                 <Form.Item
-                  name="roll_no"
-                  label="Roll No."
+                  name="designation"
+                  label="Designation"                  
                 >
                   <Input />
                 </Form.Item>
 
                 <Form.Item
-                  name="branch"
-                  label="Branch"
+                  name="cabin"
+                  label="Cabin No."                  
                 >
-                  <Cascader options={branch} />
+                  <Input />
                 </Form.Item>
 
                 <Form.Item
-                  name="program"
-                  label="Program"
+                  name="research_interest"
+                  label="Research"                  
                 >
-                  <Cascader options={program} />
+                  <Input />
                 </Form.Item>
 
                 <Form.Item
@@ -206,6 +187,13 @@ export default class Register extends Component {
                   <Input />
                 </Form.Item>
 
+                <Form.Item
+                  name="website"
+                  label="Website"                  
+                >
+                  <Input type="url" />
+                </Form.Item>
+
                 <Form.Item {...tailFormItemLayout}>
                   <Button type="primary" htmlType="submit">
                     Register
@@ -213,7 +201,7 @@ export default class Register extends Component {
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
-                  <Button onClick={this.props.onCancelRegisterStudent}>Cancel</Button>
+                  <Button onClick={this.props.onCancelRegisterFaculty}>Cancel</Button>
                 </Form.Item>
               </Form>
             </Row>

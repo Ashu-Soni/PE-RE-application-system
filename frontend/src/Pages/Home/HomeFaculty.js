@@ -6,7 +6,6 @@ import {
   ProjectOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import Feed from "../Content/Feed";
 import Application from "../Content/Application";
 import Manage from "../Content/Manage";
 
@@ -37,12 +36,9 @@ export default class Home extends Component {
   };
 
   render() {
-    let renderTab = <Feed />;
+    let renderTab = null;
     const { selected_tab, collapsed } = this.state;
     switch (selected_tab) {
-      case "home":
-        renderTab = <Feed />;
-        break;
       case "application":
         renderTab = <Application {...this}></Application>;
         break;
@@ -50,7 +46,7 @@ export default class Home extends Component {
         renderTab = <Manage {...this.state} {...this}></Manage>;
         break;
       default:
-        renderTab = <Feed />;
+        renderTab = <Application {...this}></Application>;
         break;
     }
     return (
@@ -79,15 +75,6 @@ export default class Home extends Component {
                 defaultSelectedKeys={[this.selected_tab]}
               >
                 <Menu.Item
-                  key="home"
-                  icon={<HomeOutlined />}
-                  onClick={(e) => {
-                    this.onTabChange(e);
-                  }}
-                >
-                  Home
-                </Menu.Item>
-                <Menu.Item
                   key="application"
                   icon={<ProjectOutlined />}
                   onClick={(e) => {
@@ -103,7 +90,7 @@ export default class Home extends Component {
                     this.onTabChange(e);
                   }}
                 >
-                  Manage Application
+                  Manage Electives
                 </Menu.Item>
                 <SubMenu icon={<SettingOutlined />} title="Settings">
                   <Menu.Item key="logout" onClick={this.logout}>

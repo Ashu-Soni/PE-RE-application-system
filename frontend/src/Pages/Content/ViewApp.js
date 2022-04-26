@@ -37,7 +37,8 @@ export default class ViewApp extends Component {
       }).catch((err) => console.log(err));
   };
 
-  reject = (r, e) => {
+  reject = (r) => {
+    console.log(r)
     let url = `http://localhost:9090/dashboard/Applications/Reject`;
     let body = {
       "aid": r.aid,
@@ -56,7 +57,7 @@ export default class ViewApp extends Component {
         .then((response) => {
           if (response.status === "Success") {
             console.log("Operation success!");
-            message.success("Operation success!", 1);
+            message.success(response.message, 1);
           } else {
             console.log("Operation failure!");
             message.error(response.message, 5);
@@ -73,11 +74,11 @@ export default class ViewApp extends Component {
         onReset={this.reject}
       >
         <Form.Item name="aid" label="Application ID">
-          {/*<Input />*/}
+          <Input />
         </Form.Item>
 
         <Form.Item name="eid" label="Elective ID">
-          {/*<Input />*/}
+          <Input />
         </Form.Item>
 
         <Form.Item name="name" label="Name">
