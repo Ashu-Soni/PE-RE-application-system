@@ -79,6 +79,7 @@ public class ElectiveController {
       application.setFacultyemail(factemail);
       application.setName(projectName);
       application.setStatus("Pending");
+      application.setType("Project Elective");
       apprepo.save(application);
       response.setStatus("Success");
       response.setMessage("Application submitted successfully");
@@ -116,6 +117,7 @@ public class ElectiveController {
       application.setFacultyemail(factemail);
       application.setName(projectName);
       application.setStatus("Pending");
+      application.setType("Research Elective");
       System.out.println(application);
       apprepo.save(application);
       response.setStatus("Success");
