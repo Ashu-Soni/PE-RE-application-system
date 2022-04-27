@@ -80,7 +80,7 @@ public class MainController {
 				.body(response);
 	}
 	@PostMapping("/register_faculty")
-	public ResponseEntity<Response> registerStudent(@RequestBody Faculty newFaculty)
+	public ResponseEntity<Response> registerFaculty(@RequestBody Faculty newFaculty)
 	{
 		Response response=new Response();
 		if(usercredrepo.existsById(newFaculty.getEmail()))

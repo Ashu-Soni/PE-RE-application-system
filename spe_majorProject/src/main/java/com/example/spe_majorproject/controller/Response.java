@@ -4,6 +4,18 @@ public class Response {
     private String status;
     private String message;
 
+    Response(String s,String m)
+    {
+        status=s;
+        message=m;
+    }
+
+    Response()
+    {
+        status=null;
+        message=null;
+    }
+
     public String getStatus() {
         return status;
     }
