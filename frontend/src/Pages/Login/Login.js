@@ -179,14 +179,14 @@ export default class Login extends Component {
           footer={null}
           style={{width: "100%"}}
         >
-          <RegisterFaculty {...this}/>
+          <RegisterFaculty {...this}{...this.state}/>
         </Modal>
         <Modal
           visible={this.state.register_student}
           title="Student Registration"
           footer={null}
         >
-          <Register {...this}/>
+          <Register {...this}{...this.state}/>
         </Modal>
         <Footer style={{ textAlign: "center" }}>
           {" "}

@@ -40,13 +40,13 @@ export default class Home extends Component {
     const { selected_tab, collapsed } = this.state;
     switch (selected_tab) {
       case "application":
-        renderTab = <Application {...this}></Application>;
+        renderTab = <Application {...this}{...this.state}></Application>;
         break;
       case "manage_app":
-        renderTab = <Manage {...this.state} {...this}></Manage>;
+        renderTab = <Manage {...this}{...this.state}></Manage>;
         break;
       default:
-        renderTab = <Application {...this}></Application>;
+        renderTab = <Application {...this}{...this.state}></Application>;
         break;
     }
     return (

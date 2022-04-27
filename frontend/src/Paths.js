@@ -21,7 +21,7 @@ export default class Paths extends Component {
 
     authGuard = (Component) => () => {
         return sessionStorage.getItem("logged_in") ? (
-            <Component {...this}/>
+            <Component {...this}{...this.state}/>
         ) : (
             <Redirect to="/login" />
         );
@@ -36,12 +36,8 @@ export default class Paths extends Component {
                     </Route>
 
                     <Route path="/home" render={this.authGuard(Home)} />
-                        {/* <Home {...this}/>
-                    </Route> */}
 
                     <Route path="/home_faculty" render={this.authGuard(HomeFaculty)} />
-                    {/* //     <HomeFaculty {...this}/>
-                    // </Route> */}
                     
                     <Route exact path="/">
                         <Redirect to="/login" /> 

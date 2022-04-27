@@ -11,6 +11,7 @@ export default class ViewApp extends Component {
   };
 
   accept = (r, e) => {
+    console.log(r)
     let url = `http://localhost:9090/dashboard/Applications/Accept`;
     let body = {
       "aid": r.aid,
@@ -37,8 +38,8 @@ export default class ViewApp extends Component {
       }).catch((err) => console.log(err));
   };
 
-  reject = (r) => {
-    console.log(r)
+  reject = () => {
+    let r = this.props.view_data;
     let url = `http://localhost:9090/dashboard/Applications/Reject`;
     let body = {
       "aid": r.aid,
@@ -105,13 +106,13 @@ export default class ViewApp extends Component {
         <Form.Item name="experience" label="Experience">
           <Input style={{ height: "150px" }} />
         </Form.Item>
-        <Form.Item>
+        <Form.Item key="accept" name="accept">
           <Button type="primary" htmlType={"submit"}>
             Accept
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button htmlType={"reset"}>Reject</Button>
+          <Button onClick={this.reject}>Reject</Button>
         </Form.Item>
         <Form.Item>
           <Button onClick={this.props.onCancelView}>Cancel</Button>

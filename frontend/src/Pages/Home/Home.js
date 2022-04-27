@@ -42,19 +42,19 @@ export default class Home extends Component {
     const { selected_tab, collapsed } = this.state;
     switch (selected_tab) {
       case "dashboard":
-        renderTab = <StudentDashboard />;
+        renderTab = <StudentDashboard {...this}{...this.state}/>;
         break;
       case "pe":
-        renderTab = <PE {...this}></PE>;
+        renderTab = <PE {...this}{...this.state}></PE>;
         break;
       case "re":
-        renderTab = <RE {...this}></RE>;
+        renderTab = <RE {...this}{...this.state}></RE>;
         break;
       case "faculty":
-        renderTab = <Faculty {...this}></Faculty>;
+        renderTab = <Faculty {...this}{...this.state}></Faculty>;
         break;
       default:
-        renderTab = <StudentDashboard />;
+        renderTab = <StudentDashboard {...this}{...this.state}/>;
         break;
     }
     return (
