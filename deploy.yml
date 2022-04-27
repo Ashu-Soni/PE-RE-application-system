@@ -12,8 +12,8 @@
       copy:
         src: ./docker-compose.yml
         dest: ./
-        owner: ubuntu
-        group: ubuntu
+        owner: meet
+        group: meet
         mode: 0777
     
     - name: Start the application
