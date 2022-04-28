@@ -37,12 +37,12 @@ pipeline {
         stage('Docker Build and Push'){
             steps {
                 dir('frontend'){
-                    sh 'docker build -t ashu07soni/final_frontend .'
-                    sh 'docker push ashu07soni/final_frontend'
+                    sh 'docker build -t meetgoswami/final_frontend .'
+                    sh 'docker push meetgoswami/final_frontend'
                 }
                 dir('spe_majorProject'){
-                    sh 'docker build -t ashu07soni/final_backend .'
-                    sh 'docker push ashu07soni/final_backend'
+                    sh 'docker build -t meetgoswami/final_backend .'
+                    sh 'docker push meetgoswami/final_backend'
                 }
             }
         }

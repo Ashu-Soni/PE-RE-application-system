@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   frontend:
-    image: ashu07soni/final_frontend
+    image: meetgoswami/final_frontend
     container_name: frontend
     ports:
       - "3000:3000"
@@ -11,7 +11,7 @@ services:
       - backend
 
   backend:
-    image: ashu07soni/final_backend
+    image: meetgoswami/final_backend
     container_name: backend
     ports:
       - "9090:9090"
