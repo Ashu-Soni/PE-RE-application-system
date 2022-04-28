@@ -26,6 +26,16 @@ public class Elective{
         type="none";
     }
 
+    public Elective(int eid, String name, String description, int vacancy, String faculty, String email, String type) {
+        this.eid = eid;
+        this.name = name;
+        this.description = description;
+        this.vacancy = vacancy;
+        this.faculty = faculty;
+        this.email = email;
+        this.type = type;
+    }
+
     public int getEid() {
         return eid;
     }

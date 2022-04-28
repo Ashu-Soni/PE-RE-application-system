@@ -4,6 +4,8 @@ import com.example.spe_majorproject.repository.StudentRepository;
 import com.example.spe_majorproject.repository.UserCredentialsRepository;
 //import com.example.spe_majorproject.services.LoginService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMessage;
@@ -32,10 +34,12 @@ public class MainController {
 	private StudentRepository studentRepository;
 
 	BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+	private final Logger logger= LogManager.getLogger(MainController.class);
 
 	@PostMapping("/login")
 	public ResponseEntity<Response> validateUser(@RequestBody UserCredentials cred)
 	{
+		logger.info("[LOGIN - INITIATED]");
 		Response response=new Response();
 
 		if(!cred.getEmail().isEmpty()) {
@@ -45,12 +49,15 @@ public class MainController {
 				response.setStatus("Success");
 				response.setMessage("User Credentials Verified");
 
+				logger.info("[LOGIN - STATUS] - "+response.getStatus());
+
 				return ResponseEntity.ok().header("Content-Type", "application/json")
 						.body(response);
 			}
 		}
 		response.setStatus("Failed");
 		response.setMessage("Invalid User Credentials");
+		logger.info("[LOGIN - STATUS] - "+response.getStatus());
 		return ResponseEntity.badRequest().header("Content-Type", "application/json")
 				.body(response);
 	}
@@ -58,11 +65,13 @@ public class MainController {
 	@PostMapping("/register_student")
 	public ResponseEntity<Response> registerStudent(@RequestBody Student newStudent)
 	{
+		logger.info("[REGISTER_STUDENT - INITIATED]");
 		Response response=new Response();
 		if(usercredrepo.existsById(newStudent.getEmail()))
 		{
 			response.setStatus("Failed");
 			response.setMessage("User already exists");
+			logger.info("[REGISTER_STUDENT - STATUS] - "+response.getStatus());
 			return ResponseEntity.badRequest().header("Content-Type", "application/json")
 					.body(response);
 		}
@@ -76,17 +85,20 @@ public class MainController {
 		studentRepository.save(newStudent);
 		response.setStatus("Success");
 		response.setMessage("User registered successfully");
+		logger.info("[REGISTER_STUDENT - STATUS] - "+response.getStatus());
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body(response);
 	}
 	@PostMapping("/register_faculty")
-	public ResponseEntity<Response> registerStudent(@RequestBody Faculty newFaculty)
+	public ResponseEntity<Response> registerFaculty(@RequestBody Faculty newFaculty)
 	{
+		logger.info("[REGISTER_FACULTY - INITIATED]");
 		Response response=new Response();
 		if(usercredrepo.existsById(newFaculty.getEmail()))
 		{
 			response.setStatus("Failed");
 			response.setMessage("User already exists");
+			logger.info("[REGISTER_FACULTY - STATUS] - "+response.getStatus());
 			return ResponseEntity.badRequest().header("Content-Type", "application/json")
 					.body(response);
 		}
@@ -100,6 +112,7 @@ public class MainController {
 		facultyRepository.save(newFaculty);
 		response.setStatus("Success");
 		response.setMessage("User registered successfully");
+		logger.info("[REGISTER_FACULTY - STATUS] - "+response.getStatus());
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body(response);
 	}
