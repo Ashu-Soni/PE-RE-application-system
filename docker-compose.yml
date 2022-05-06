@@ -34,7 +34,7 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=Ashu@0710
     volumes:
-      - mysql_data_volume: /var/lib/mysql
+      - mysql_data_volume:/var/lib/mysql
 
 networks:
   final_project:
