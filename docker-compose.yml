@@ -9,6 +9,7 @@ services:
       - final_project
     depends_on:
       - backend
+    pull_policy: always
 
   backend:
     image: ashu07soni/final_backend
@@ -20,6 +21,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    pull_policy: always
 
   mysql:
     image: mysql/mysql-server
@@ -31,6 +33,11 @@ services:
       - MYSQL_DATABASE=spe_project
       - MYSQL_USER=root
       - MYSQL_PASSWORD=Ashu@0710
+    volumes:
+      - mysql_data_volume: /var/lib/mysql
 
 networks:
   final_project:
+
+volumes:
+  mysql_data_volume:
