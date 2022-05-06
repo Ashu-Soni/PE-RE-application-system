@@ -14,7 +14,7 @@ services:
     image: ashu07soni/final_backend
     container_name: backend
     ports:
-      - "8080:8080"
+      - "9090:9090"
     networks:
       - final_project
     depends_on:
