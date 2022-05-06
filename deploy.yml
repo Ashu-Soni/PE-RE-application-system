@@ -16,5 +16,8 @@
         group: ubuntu
         mode: 0777
     
+    - name: clean the docker compose workspace
+      shell: docker-compose down
+
     - name: Start the application
       shell: docker-compose up -d
