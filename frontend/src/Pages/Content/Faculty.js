@@ -16,7 +16,7 @@ export default class Faculty extends Component {
   }
 
   componentDidMount = () => {
-    let url = "http://localhost:9090/dashboard/Faculty"
+    let url = sessionStorage.getItem("proxy")+"dashboard/Faculty"
     console.log(url)
     fetch(url, {
       method: "GET",

@@ -50,7 +50,7 @@ export default class Login extends Component {
       password: r.password,
     };
     console.log(JSON.stringify(body));
-    let url = this.props.url+`home/login`;
+    let url = sessionStorage.getItem("proxy")+`home/login`;
     console.log(url);
     fetch(url, {
       method: "POST",

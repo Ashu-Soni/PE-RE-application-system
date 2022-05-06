@@ -71,7 +71,8 @@ export default class Register extends Component {
       branch: values.branch[0],
     };
     console.log(JSON.stringify(body));
-    let url = "http://localhost:9090/home/register_student";
+    let url = sessionStorage.getItem("proxy")+"home/register_student";
+    console.log(url)
     fetch(url, {
       method: "POST",
       headers: {

@@ -22,7 +22,7 @@ export default class RE extends Component {
   }
 
   componentDidMount = () => {
-    let url = `http://localhost:9090/dashboard/ResearchElectives`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/ResearchElectives`;
     console.log(url)
     fetch(url, {
       method: "GET",

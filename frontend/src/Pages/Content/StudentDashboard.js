@@ -41,7 +41,7 @@ export default class StudentDashboard extends Component {
   };
 
   componentDidMount = () => {
-    let url = "http://localhost:9090/dashboard/MyApplications";
+    let url = sessionStorage.getItem("proxy")+"dashboard/MyApplications";
     let body = {
       studentemail: sessionStorage.getItem("email"),
     };

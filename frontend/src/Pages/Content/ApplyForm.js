@@ -15,9 +15,9 @@ export default class ApplyForm extends Component {
     console.log(r);
     let url=null;
     if(r.type === "project_elective") {
-      url = `http://localhost:9090/dashboard/ProjectElectives/apply`;
+      url = sessionStorage.getItem("proxy")+`dashboard/ProjectElectives/apply`;
     } else {
-      url = `http://localhost:9090/dashboard/ResearchElectives/apply`;
+      url = sessionStorage.getItem("proxy")+`dashboard/ResearchElectives/apply`;
     }
     console.log(url, JSON.stringify(r));
     fetch(url, {

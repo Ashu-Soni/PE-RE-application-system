@@ -52,7 +52,8 @@ export default class RegisterFaculty extends Component {
     };
 
     console.log(JSON.stringify(body));
-    let url = "http://localhost:9090/home/register_faculty";
+    let url = sessionStorage.getItem("proxy")+"home/register_faculty";
+    console.log(url)
     fetch(url, {
       method: "POST",
       headers: {

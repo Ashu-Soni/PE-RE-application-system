@@ -23,7 +23,7 @@ export default class PE extends Component {
   }
 
   componentDidMount = () => {
-    let url = `http://localhost:9090/dashboard/ProjectElectives`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/ProjectElectives`;
     fetch(url, {
       method: "GET",
       headers: {

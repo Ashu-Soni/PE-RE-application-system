@@ -1,8 +1,4 @@
 pipeline {
- environment {
-        registry = "meetgoswami/spe_project"
-        registryCredential = 'docker_cred'
-    }
     agent any
     stages {
         stage("Git clone") {
@@ -41,19 +37,12 @@ pipeline {
         stage('Docker Build and Push'){
             steps {
                 dir('frontend'){
-                    script {
-                    dockerImage = docker.build registry + ":final_frontend"
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()  
-                    }
-                }
+                    sh 'docker build -t meetgoswami/final_frontend .'
+                    sh 'docker push meetgoswami/final_frontend'
                 }
                 dir('spe_majorProject'){
-                     script {
-                    dockerImagebackend = docker.build registry + ":final_backend"
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImagebackend.push()  
-                    }
+                    sh 'docker build -t meetgoswami/final_backend .'
+                    sh 'docker push meetgoswami/final_backend'
                 }
             }
         }

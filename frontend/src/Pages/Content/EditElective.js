@@ -19,7 +19,7 @@ export default class EditElective extends Component {
 
   edit_elective = (r, e) => {
     console.log(r);
-    let url = `http://localhost:9090/dashboard/MyElectives/Update`
+    let url = sessionStorage.getItem("proxy")+`dashboard/MyElectives/Update`
     let body = {
       eid: r.eid,
       name: r.project_name,

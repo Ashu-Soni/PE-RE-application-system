@@ -42,7 +42,7 @@ export default class Manage extends Component {
   };
 
   componentDidMount = () => {
-    let url = `http://localhost:9090/dashboard/MyElectives`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/MyElectives`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -69,7 +69,7 @@ export default class Manage extends Component {
     };
     console.log(JSON.stringify(body));
 
-    let url = `http://localhost:9090/dashboard/MyElectives/Add`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/MyElectives/Add`;
     fetch(url, {
       method: "POST",
       headers: {

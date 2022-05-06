@@ -12,7 +12,7 @@ export default class ViewApp extends Component {
 
   accept = (r, e) => {
     console.log(r)
-    let url = `http://localhost:9090/dashboard/Applications/Accept`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/Applications/Accept`;
     let body = {
       "aid": r.aid,
       "eid": r.eid,
@@ -40,7 +40,7 @@ export default class ViewApp extends Component {
 
   reject = () => {
     let r = this.props.view_data;
-    let url = `http://localhost:9090/dashboard/Applications/Reject`;
+    let url = sessionStorage.getItem("proxy")+`dashboard/Applications/Reject`;
     let body = {
       "aid": r.aid,
       "eid": r.eid,

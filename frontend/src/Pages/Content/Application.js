@@ -24,7 +24,7 @@ export default class Application extends Component {
   }
 
   componentDidMount = () => {
-    let url = `http://localhost:9090/dashboard/Applications`
+    let url = sessionStorage.getItem("proxy")+`dashboard/Applications`
     let body = {
       "facultyemail": sessionStorage.getItem("email"),
     }
