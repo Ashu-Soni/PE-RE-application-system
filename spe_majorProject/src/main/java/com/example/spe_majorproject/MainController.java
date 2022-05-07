@@ -1,4 +1,4 @@
-package com.example.spe_majorproject.controller;
+package com.example.spe_majorproject;
 import com.example.spe_majorproject.repository.FacultyRepository;
 import com.example.spe_majorproject.repository.StudentRepository;
 import com.example.spe_majorproject.repository.UserCredentialsRepository;
@@ -7,17 +7,11 @@ import com.example.spe_majorproject.repository.UserCredentialsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMessage;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.spe_majorproject.bean.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
