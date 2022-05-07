@@ -1,6 +1,4 @@
 import React from 'react';
-//import { shallow } from 'enzyme';
-//import Button from './Button';
 import {logout} from './Pages/Home/Home';
 import {onCollapse} from './Pages/Home/Home';
 
