@@ -1,4 +1,4 @@
-package com.example.spe_majorproject;
+package com.example.spe_majorproject.controller;
 
 import com.example.spe_majorproject.bean.Application;
 import com.example.spe_majorproject.bean.Elective;

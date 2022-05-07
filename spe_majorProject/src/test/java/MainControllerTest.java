@@ -1,4 +1,4 @@
-import com.example.spe_majorproject.MainController;
+import com.example.spe_majorproject.controller.MainController;
 import com.example.spe_majorproject.bean.Faculty;
 import com.example.spe_majorproject.bean.Student;
 import com.example.spe_majorproject.bean.UserCredentials;

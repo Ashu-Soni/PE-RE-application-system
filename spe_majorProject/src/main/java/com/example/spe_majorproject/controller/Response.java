@@ -1,4 +1,4 @@
-package com.example.spe_majorproject;
+package com.example.spe_majorproject.controller;
 
 public class Response {
     private String status;

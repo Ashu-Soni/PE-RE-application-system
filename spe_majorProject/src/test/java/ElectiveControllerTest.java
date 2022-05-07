@@ -1,4 +1,4 @@
-import com.example.spe_majorproject.ElectiveController;
+import com.example.spe_majorproject.controller.ElectiveController;
 import com.example.spe_majorproject.bean.Elective;
 import com.example.spe_majorproject.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

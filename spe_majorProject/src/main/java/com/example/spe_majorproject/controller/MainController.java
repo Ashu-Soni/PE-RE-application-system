@@ -1,4 +1,4 @@
-package com.example.spe_majorproject;
+package com.example.spe_majorproject.controller;
 import com.example.spe_majorproject.repository.FacultyRepository;
 import com.example.spe_majorproject.repository.StudentRepository;
 import com.example.spe_majorproject.repository.UserCredentialsRepository;
@@ -39,7 +39,7 @@ public class MainController {
 		if(!cred.getEmail().isEmpty()) {
 			UserCredentials usr = usercredrepo.findById(cred.getEmail()).orElse(new UserCredentials());
 
-			if (usr.getPassword() != null && bCryptPasswordEncoder.matches(cred.getPassword(), usr.getPassword())){
+			if (usr.getPassword() != null && bCryptPasswordEncoder.matches(cred.getPassword(), usr.getPassword()) && cred.getUserType().equalsIgnoreCase(usr.getUserType())){
 				response.setStatus("Success");
 				response.setMessage("User Credentials Verified");
 
