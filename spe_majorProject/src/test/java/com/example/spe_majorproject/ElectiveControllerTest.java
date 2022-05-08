@@ -1,3 +1,5 @@
+package com.example.spe_majorproject;
+
 import com.example.spe_majorproject.controller.ElectiveController;
 import com.example.spe_majorproject.bean.Elective;
 import com.example.spe_majorproject.repository.*;
