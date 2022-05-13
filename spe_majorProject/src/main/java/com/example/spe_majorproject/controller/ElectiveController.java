@@ -158,6 +158,14 @@ public class  ElectiveController {
     Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
     if(!factname.equals("none"))
     {
+      if(elective.getVacancy()<0)
+      {
+        response.setStatus("Failed");
+        response.setMessage("Vacancy cannot be less than 0");
+        logger.info("[ADD_MY_ELECTIVES - STATUS] - "+response.getStatus());
+        return ResponseEntity.badRequest().header("Content-Type", "application/json")
+                .body(response);
+      }
       elective.setFaculty(factname.getName());
       if(elective.getType().equals("project_elective"))
       {
@@ -187,9 +195,18 @@ public class  ElectiveController {
   {
     logger.info("[UPDATE_MY_ELECTIVES] - "+elective.getEmail());
     Response response=new Response();
+
     Faculty factname=factrepo.findById(elective.getEmail()).orElse(new Faculty());
     if(!factname.equals("none"))
     {
+      if(elective.getVacancy()<0)
+      {
+        response.setStatus("Failed");
+        response.setMessage("Vacancy cannot be less than 0");
+        logger.info("[UPDATE_MY_ELECTIVES - STATUS] - "+response.getStatus());
+        return ResponseEntity.badRequest().header("Content-Type", "application/json")
+                .body(response);
+      }
       elective.setFaculty(factname.getName());
       if(elective.getType().equals("project_elective"))
       {
