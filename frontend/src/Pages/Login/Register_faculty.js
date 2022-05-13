@@ -210,7 +210,7 @@ export default class RegisterFaculty extends Component {
         </Content>
         <Footer style={{ textAlign: "center" }}>
           {" "}
-          Created by Ashutosh soni - MT2021026 ©2022
+          Created by Ashutosh soni(MT2021026) Meet Goswami(MT2021075) Shivani Sheth(MT2021126) ©2022
         </Footer>
       </Layout>
     );
