@@ -21,7 +21,7 @@ import java.util.Map;
 @CrossOrigin
 @RestController
 @RequestMapping("/dashboard")
-public class ElectiveController {
+public class  ElectiveController {
 
   @Autowired
   private ElectiveRepository electiverepo;

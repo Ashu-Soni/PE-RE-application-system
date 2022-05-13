@@ -39,14 +39,16 @@ public class MainController {
 		if(!cred.getEmail().isEmpty()) {
 			UserCredentials usr = usercredrepo.findById(cred.getEmail()).orElse(new UserCredentials());
 
-			if (usr.getPassword() != null && bCryptPasswordEncoder.matches(cred.getPassword(), usr.getPassword()) && cred.getUserType().equalsIgnoreCase(usr.getUserType())){
-				response.setStatus("Success");
-				response.setMessage("User Credentials Verified");
+			if (usr.getPassword() != null && bCryptPasswordEncoder.matches(cred.getPassword(), usr.getPassword())){
+				if((cred.getUserType().equalsIgnoreCase("Professor") && usr.getUserType().equalsIgnoreCase("Faculty")) || (cred.getUserType().equalsIgnoreCase("Student") && usr.getUserType().equalsIgnoreCase("Student"))) {
+					response.setStatus("Success");
+					response.setMessage("User Credentials Verified");
 
-				logger.info("[LOGIN - STATUS] - "+response.getStatus());
+					logger.info("[LOGIN - STATUS] - " + response.getStatus());
 
-				return ResponseEntity.ok().header("Content-Type", "application/json")
-						.body(response);
+					return ResponseEntity.ok().header("Content-Type", "application/json")
+							.body(response);
+				}
 			}
 		}
 		response.setStatus("Failed");
