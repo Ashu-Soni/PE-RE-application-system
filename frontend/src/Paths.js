@@ -20,7 +20,7 @@ export default class Paths extends Component {
     }
 
     componentDidMount = () => {
-        sessionStorage.setItem("proxy", "http://54.167.79.230:9090/")
+        sessionStorage.setItem("proxy", "http://54.158.39.222:9090/")
     }
 
     authGuard = (Component) => () => {
